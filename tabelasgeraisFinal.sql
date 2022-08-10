@@ -37,17 +37,19 @@ CREATE TABLE if not exists EventoCep(
 );
 
 CREATE TABLE if not exists TiposTrabalhosAceitosEvento(
-    tipoTrabalho varchar(20) not null primary key,
+    tipoTrabalho varchar(20) not null,
     sigla varchar(8) not null,
-    foreign key(sigla) references Evento(sigla)
+    foreign key(sigla) references Evento(sigla),
+    primary key(tipoTrabalho, sigla)
 );
 
 CREATE TABLE if not exists ComissaoOrganizadora(
-    edicao varchar(10) not null primary key,
+    edicao varchar(10) not null,
     sigla varchar(8) not null,
     ano integer not null,
     pais varchar(20) not null,
-    foreign key(sigla) references Evento(sigla)
+    foreign key(sigla) references Evento(sigla),
+    primary key(edicao, sigla)
 );
 
 CREATE TABLE if not exists EstadoPais(
@@ -68,7 +70,7 @@ CREATE TABLE if not exists Comite(
 );
 
 CREATE TABLE if not exists ComiteEvento(
-    idComite integer GENERATED ALWAYS AS IDENTITY,
+    idComite integer GENERATED ALWAYS AS IDENTITY primary key,
     sigla varchar(8) not null,
     tipo varchar(20) not null,
     foreign key(sigla) references Evento(sigla),
