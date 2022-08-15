@@ -31,7 +31,6 @@ CREATE TABLE IF NOT EXISTS FormatosCitacao(
 
 
 -- Criação da tabela Avaliador
-
 CREATE TABLE IF NOT EXISTS Avaliador(
 	idAvaliador BIGSERIAL NOT NULL,
 	dataEnvioConv DATE NOT NULL,
@@ -83,7 +82,7 @@ CREATE TABLE IF NOT EXISTS CertificadoAvaliador(
 CREATE TABLE IF NOT EXISTS ArquivosCertificado (
 
 	idAvaliador BIGSERIAL NOT NULL,
-	documento BYTEA,           	
+	documento varchar(150),           	
 
 	CONSTRAINT arquivosCertificado_pk PRIMARY KEY (idAvaliador),
 	CONSTRAINT idAvaliador_fk FOREIGN KEY (idAvaliador) REFERENCES Avaliador(idAvaliador)
