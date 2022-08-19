@@ -19,13 +19,13 @@
 - João Vitor Azevedo Marciano, 743554, Bacharelado em Engenharia de Computação - Grupo C
 [@JoaoVitorAzevedo](https://github.com/JoaoVitorAzevedo)
 - Juan Salin Correa, 760573, Engenharia Elétrica - Grupo A
-[@Juan](https://github.com/)
+[@juan-scorrea](https://github.com/)
 - Miguel Antonio de Oliveira, 772180, Bacharelado em Ciência da Computação - Grupo A
-[@Miguel](https://github.com/)
+[@migeyel](https://github.com/)
 - Nayra Kaline Santos Vidal, 769847, Bacharelado em Ciência da Computação - Grupo C
 [@nayrakalinesv](https://github.com/nayrakalinesv)
 - Sophia Santonastasio Schuster, 760936, Bacharelado em Ciência da Computação - Grupo B
-[@Sophia](https://github.com/)
+[@Sophia-Schuster](https://github.com/)
 - Vanessa de Cássia Alves, 795314, Bacharelado em Ciência da Computação - Grupo C
 [@Vanessa-webusr](https://github.com/Vanessa-webusr)
 
