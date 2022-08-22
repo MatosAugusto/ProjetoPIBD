@@ -25,8 +25,10 @@ CREATE TABLE IF NOT EXISTS Edital (
 );
 
 CREATE TABLE IF NOT EXISTS IdiomasAceitos (
-    idioma VARCHAR(20) NOT NULL,
+    idioma CHAR NOT NULL,
     idEdital INTEGER NOT NULL, 
+    
+    CONSTRAINT idiomaCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J')),
 
     PRIMARY KEY(idioma, idEdital),
     FOREIGN KEY(idEdital) REFERENCES Edital(idEdital)
@@ -71,10 +73,7 @@ CREATE TABLE IF NOT EXISTS SubAreasApresentacao (
 CREATE TABLE IF NOT EXISTS Regras (
     idEdital INTEGER NOT NULL PRIMARY KEY,
     descricao VARCHAR(200),
-    modelo VARCHAR(64), /* o que seria aqui? o link do modelo? ou precisa especificar que é um arquivo pdf (por exemplo)? */
-
-  --essa parte eu preciso estudar ainda
-  --parece que tem um tipo que armazena arquivos pdf
+    modelo BYTEA,
     
     FOREIGN KEY(idEdital) REFERENCES Edital(idEdital)
 );
@@ -82,7 +81,7 @@ CREATE TABLE IF NOT EXISTS Regras (
 CREATE TABLE IF NOT EXISTS CronogramaEdital (
     idCronogramaEdital INTEGER GENERATED ALWAYS AS IDENTITY,
     idEdital INTEGER NOT NULL,
-    dataPublicacaoOriginal DATE, --aqui não seria not null tbm?
+    dataPublicacaoOriginal DATE NOT NULL,
     dataRealizacao DATE,
     dataDivulgacaoListaAprovados DATE,
     
@@ -115,14 +114,16 @@ CREATE TABLE IF NOT EXISTS Trabalho (
     palavraChave1 VARCHAR(16) NOT NULL,
     palavraChave2 VARCHAR(16) NOT NULL,
     palavraChave3 VARCHAR(16) NOT NULL,
-    idiomaPrincipal VARCHAR(20) NOT NULL,
+    idiomaPrincipal CHAR NOT NULL,
     status VARCHAR(16),
-    idioma2 VARCHAR(20),
-    idioma3 VARCHAR(20),
+    idioma2 CHAR,
+    idioma3 CHAR,
     descricao VARCHAR(200),
     palavraChave4 VARCHAR(16),
     palavraChave5 VARCHAR(16),
     tipoTrabalho VARCHAR(32) NOT NULL,
+    
+    CONSTRAINT idiomaTrabalhoCheck CHECK(idiomaPrincipal, idioma2, idioma3 IN('P', 'I', 'E', 'A', 'J')),
     
     PRIMARY KEY(idTrabalho),
     CHECK (tipoTrabalho IN ('Oficina', 'Minicurso','Artigo')),
@@ -140,9 +141,11 @@ CREATE TABLE IF NOT EXISTS Artigo (
 
 CREATE TABLE IF NOT EXISTS VersaoSintese (
   idTrabalho INTEGER NOT NULL,
-  idioma VARCHAR(20) NOT NULL,
+  idioma CHAR NOT NULL,
   texto TEXT NOT NULL,
-  ehPrimario BOOLEAN NOT NULL, --fiquei com uma dúvida aqui, deixando assim, não seria possível eu colocar 2 sinteses como primarias?
+  ehPrimario BOOLEAN NOT NULL,
+    
+  CONSTRAINT idiomaSinteseCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J')),
 
   PRIMARY KEY(idTrabalho),
   FOREIGN KEY(idTrabalho) REFERENCES Artigo(idTrabalho)
