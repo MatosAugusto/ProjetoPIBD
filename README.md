@@ -2,6 +2,14 @@
 "Projeto e Implementação de Banco de Dados" 
 - Consiste na implementação de um sistema de controle de eventos científicos
 
+## Instalação 
+
+### Instalação do postgres
+
+```bash
+
+```
+
 ## Alunos realizando o projeto
 
 - Augusto Luchesi Matos, 740871, Bacharelado em Ciência da Computação - Grupo B
