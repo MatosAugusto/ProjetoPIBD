@@ -13,7 +13,7 @@ DROP TABLE Trabalho;
 */
 
 CREATE TABLE IF NOT EXISTS Edital (
-    idEdital INTEGER GENERATED ALWAYS AS IDENTITY,
+    idEdital SERIAL,
     sigla VARCHAR(8) NOT NULL,
     url VARCHAR(64) NOT NULL,
     dataUltimaEdicao DATE,
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS Edital (
 
 CREATE TABLE IF NOT EXISTS IdiomasAceitos (
     idioma CHAR NOT NULL,
-    idEdital INTEGER NOT NULL, 
+    idEdital SERIAL NOT NULL, 
     
     CONSTRAINT idiomaCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J')),
 
@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS IdiomasAceitos (
 );
 
 CREATE TABLE IF NOT EXISTS EixosApresentacao (
-    idEixo INTEGER GENERATED ALWAYS AS IDENTITY,
-    idEdital INTEGER NOT NULL,
+    idEixo SERIAL,
+    idEdital SERIAL NOT NULL,
     nomeEixo VARCHAR(20) NOT NULL,
     
     PRIMARY KEY(idEixo),
@@ -45,7 +45,7 @@ CREATE TABLE IF NOT EXISTS EixosApresentacao (
 );
 
 CREATE TABLE IF NOT EXISTS SubEixosApresentacao (
-    idEixo INTEGER NOT NULL,
+    idEixo SERIAL NOT NULL,
     nomeSubEixo VARCHAR(20) NOT NULL,
     
     PRIMARY KEY(nomeSubEixo, idEixo),
@@ -53,8 +53,8 @@ CREATE TABLE IF NOT EXISTS SubEixosApresentacao (
 );
 
 CREATE TABLE IF NOT EXISTS AreasApresentacao (
-    idArea INTEGER GENERATED ALWAYS AS IDENTITY,
-    idEdital INTEGER NOT NULL,
+    idArea SERIAL,
+    idEdital SERIAL NOT NULL,
     nomeArea VARCHAR(20) NOT NULL,
     
     PRIMARY KEY(idArea),
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS AreasApresentacao (
 );
 
 CREATE TABLE IF NOT EXISTS SubAreasApresentacao (
-    idArea INTEGER NOT NULL,
+    idArea SERIAL NOT NULL,
     nomeSubArea VARCHAR(20) NOT NULL,
     
     PRIMARY KEY(nomeSubArea, idArea),
@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS SubAreasApresentacao (
 );
 
 CREATE TABLE IF NOT EXISTS Regras (
-    idEdital INTEGER NOT NULL PRIMARY KEY,
+    idEdital SERIAL NOT NULL PRIMARY KEY,
     descricao VARCHAR(200),
     modelo BYTEA,
     
@@ -79,8 +79,8 @@ CREATE TABLE IF NOT EXISTS Regras (
 );
 
 CREATE TABLE IF NOT EXISTS CronogramaEdital (
-    idCronogramaEdital INTEGER GENERATED ALWAYS AS IDENTITY,
-    idEdital INTEGER NOT NULL,
+    idCronogramaEdital SERIAL,
+    idEdital SERIAL NOT NULL,
     dataPublicacaoOriginal DATE NOT NULL,
     dataRealizacao DATE,
     dataDivulgacaoListaAprovados DATE,
@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS CronogramaEdital (
 );
 
 CREATE TABLE IF NOT EXISTS PeriodoInscricoesEdital (
-    idCronogramaEdital INTEGER NOT NULL,
+    idCronogramaEdital SERIAL NOT NULL,
     inicioPeriodoI DATE NOT NULL,
     fimPeriodoI DATE NOT NULL,
     
@@ -100,7 +100,7 @@ CREATE TABLE IF NOT EXISTS PeriodoInscricoesEdital (
 );
 
 CREATE TABLE IF NOT EXISTS PeriodoSubmissoesEdital (
-    idCronogramaEdital INTEGER NOT NULL,
+    idCronogramaEdital SERIAL NOT NULL,
     inicioPeriodoS DATE NOT NULL,
     fimPeriodoS DATE NOT NULL,
     
@@ -109,7 +109,7 @@ CREATE TABLE IF NOT EXISTS PeriodoSubmissoesEdital (
 );
 
 CREATE TABLE IF NOT EXISTS Trabalho (
-    idTrabalho INTEGER GENERATED ALWAYS AS IDENTITY,
+    idTrabalho SERIAL,
     titulo VARCHAR(64) NOT NULL,
     palavraChave1 VARCHAR(16) NOT NULL,
     palavraChave2 VARCHAR(16) NOT NULL,
@@ -131,7 +131,7 @@ CREATE TABLE IF NOT EXISTS Trabalho (
 );
 
 CREATE TABLE IF NOT EXISTS Artigo (
-  idTrabalho INTEGER NOT NULL,
+  idTrabalho SERIAL NOT NULL,
   tipoArtigo VARCHAR(32) NOT NULL,
     
   PRIMARY KEY(idTrabalho),
@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS Artigo (
 );
 
 CREATE TABLE IF NOT EXISTS VersaoSintese (
-  idTrabalho INTEGER NOT NULL,
+  idTrabalho SERIAL NOT NULL,
   idioma CHAR NOT NULL,
   texto TEXT NOT NULL,
   ehPrimario BOOLEAN NOT NULL,
