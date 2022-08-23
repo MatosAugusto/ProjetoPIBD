@@ -424,6 +424,13 @@ CREATE TABLE DocumentosCronogramaPalestra (
 
 -- Tabelas Grupo B
 -- Criação da tabela Edital
+/* Tabelas relacionadas: 
+   - IdiomasAceitos (1, n)
+   - EixosApresentacao (1, n)
+   - AreasApresentacao (1, n)
+   - Regras (1, n)
+   - CronogramaEdital (1, n)
+*/
 CREATE TABLE IF NOT EXISTS Edital (
     idEdital SERIAL,
     sigla VARCHAR(8) NOT NULL,
@@ -440,6 +447,7 @@ CREATE TABLE IF NOT EXISTS Edital (
 CREATE TABLE IF NOT EXISTS IdiomasAceitos (
     idioma CHAR NOT NULL,
     idEdital SERIAL NOT NULL, 
+    -- Ainda temos que ver como vai ficar essa questão do tipo SERIAL nas chaves estrangeiras
     
     CONSTRAINT idiomaCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J')),
 
@@ -448,6 +456,9 @@ CREATE TABLE IF NOT EXISTS IdiomasAceitos (
 );
 
 -- Criação da tabela EixosApresentacao 
+/* Tabelas relacionadas:
+   - SubEixosApresentacao (0, n)
+*/
 CREATE TABLE IF NOT EXISTS EixosApresentacao (
     idEixo SERIAL,
     idEdital SERIAL NOT NULL,
@@ -468,6 +479,9 @@ CREATE TABLE IF NOT EXISTS SubEixosApresentacao (
 );
 
 -- Criação da tabela AreasApresentacao
+/* Tabelas relacionadas:
+   - SubAreasApresentacao (0, n)
+*/
 CREATE TABLE IF NOT EXISTS AreasApresentacao (
     idArea SERIAL,
     idEdital SERIAL NOT NULL,
@@ -489,14 +503,19 @@ CREATE TABLE IF NOT EXISTS SubAreasApresentacao (
 
 -- Criação da tabela Regras
 CREATE TABLE IF NOT EXISTS Regras (
-    idEdital SERIAL NOT NULL PRIMARY KEY,
+    idEdital SERIAL NOT NULL,
     descricao VARCHAR(200),
     modelo BYTEA,
     
+    PRIMARY KEY(idEdital),
     FOREIGN KEY(idEdital) REFERENCES Edital(idEdital)
 );
 
 -- Criação da tabela CronogramaEdital
+/* Tabelas relacionadas:
+   - PeriodoInscricoesEdital (1, n)
+   - PeriodoSubmissoesEdital (1, n)
+*/
 CREATE TABLE IF NOT EXISTS CronogramaEdital (
     idCronogramaEdital SERIAL,
     idEdital SERIAL NOT NULL,
@@ -530,8 +549,13 @@ CREATE TABLE IF NOT EXISTS PeriodoSubmissoesEdital (
 );
 
 -- Criação da tabela Trabalho
+/* Tabelas relacionadas:
+   - Artigo (1, n)
+   - VersaoSintese (1, n)
+*/
 CREATE TABLE IF NOT EXISTS Trabalho (
-    idTrabalho SERIAL,
+    idEdital SERIAL NOT NULL,
+    idTrabalho SERIAL NOT NULL,
     titulo VARCHAR(64) NOT NULL,
     palavraChave1 VARCHAR(16) NOT NULL,
     palavraChave2 VARCHAR(16) NOT NULL,
@@ -544,10 +568,16 @@ CREATE TABLE IF NOT EXISTS Trabalho (
     palavraChave4 VARCHAR(16),
     palavraChave5 VARCHAR(16),
     tipoTrabalho VARCHAR(32) NOT NULL,
-    
-    CONSTRAINT idiomaTrabalhoCheck CHECK(idiomaPrincipal, idioma2, idioma3 IN('P', 'I', 'E', 'A', 'J')),
-    
+
     PRIMARY KEY(idTrabalho),
+    FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
+
+    -- Tentei rodar assim e deu erro
+    -- CONSTRAINT idiomaTrabalhoCheck CHECK(idiomaPrincipal, idioma2, idioma3 IN('P', 'I', 'E', 'A', 'J')),
+
+    CONSTRAINT idiomaPTrabalhoCheck CHECK(idiomaPrincipal IN('P', 'I', 'E', 'A', 'J')),
+    CONSTRAINT idioma2TrabalhoCheck CHECK(idioma2 IN('P', 'I', 'E', 'A', 'J')),
+    CONSTRAINT idioma3TrabalhoCheck CHECK(idioma3 IN('P', 'I', 'E', 'A', 'J')),
     CHECK (tipoTrabalho IN ('Oficina', 'Minicurso','Artigo')),
     UNIQUE(titulo, palavraChave1, palavraChave2, palavraChave3, idiomaPrincipal)
 );
@@ -559,6 +589,7 @@ CREATE TABLE IF NOT EXISTS Artigo (
     
   PRIMARY KEY(idTrabalho),
   FOREIGN KEY(idTrabalho) REFERENCES Trabalho(idTrabalho),
+
   CHECK (tipoArtigo IN ('Resumo', 'ResumoEstendido', 'ArtigoCompleto'))
 );
 
@@ -569,10 +600,10 @@ CREATE TABLE IF NOT EXISTS VersaoSintese (
   texto TEXT NOT NULL,
   ehPrimario BOOLEAN NOT NULL,
     
-  CONSTRAINT idiomaSinteseCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J')),
-
   PRIMARY KEY(idTrabalho),
-  FOREIGN KEY(idTrabalho) REFERENCES Artigo(idTrabalho)
+  FOREIGN KEY(idTrabalho) REFERENCES Artigo(idTrabalho),
+
+  CONSTRAINT idiomaSinteseCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J'))
 );
 
 
