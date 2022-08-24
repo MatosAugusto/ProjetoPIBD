@@ -554,7 +554,6 @@ CREATE TABLE IF NOT EXISTS PeriodoSubmissoesEdital (
    - VersaoSintese (1, n)
 */
 CREATE TABLE IF NOT EXISTS Trabalho (
-    idEdital SERIAL NOT NULL,
     idTrabalho SERIAL NOT NULL,
     titulo VARCHAR(64) NOT NULL,
     palavraChave1 VARCHAR(16) NOT NULL,
@@ -570,7 +569,6 @@ CREATE TABLE IF NOT EXISTS Trabalho (
     tipoTrabalho VARCHAR(32) NOT NULL,
 
     PRIMARY KEY(idTrabalho),
-    FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
 
     -- Tentei rodar assim e deu erro
     -- CONSTRAINT idiomaTrabalhoCheck CHECK(idiomaPrincipal, idioma2, idioma3 IN('P', 'I', 'E', 'A', 'J')),
