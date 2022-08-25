@@ -1,6 +1,6 @@
 -- Inserção na tabela Trabalho
 create or replace procedure InsertTrabalho (
-	titulo VARCHAR(64),
+    titulo VARCHAR(64),
     palavraChave1 VARCHAR(16),
     palavraChave2 VARCHAR(16),
     palavraChave3 VARCHAR(16),
@@ -27,7 +27,7 @@ create or replace procedure UpdateTrabalho (
 
     -- idTrabalho SERIAL, -- usando o serial aqui deu erro na hora de rodar (em todos os procedures de update)
     idTrabalho INTEGER,
-	titulo VARCHAR(64),
+    titulo VARCHAR(64),
     palavraChave1 VARCHAR(16),
     palavraChave2 VARCHAR(16),
     palavraChave3 VARCHAR(16),
@@ -63,7 +63,7 @@ end;$$
 
 -- Inserção na tabela Artigo
 create or replace procedure InsertArtigo (
-	tipoArtigo VARCHAR(32)
+    tipoArtigo VARCHAR(32)
 )
 language plpgsql
 as $$
@@ -91,7 +91,7 @@ end;$$
 
 -- Inserção na tabela VersaoSintese
 create or replace procedure InsertVersaoSintese (
-	idioma CHAR,
+    idioma CHAR,
     texto TEXT,
     ehPrimario BOOLEAN
 )
