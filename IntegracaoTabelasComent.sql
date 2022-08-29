@@ -608,80 +608,88 @@ CREATE TABLE IF NOT EXISTS VersaoSintese (
 
 
 -- Tabelas Grupo C
--- remover as cascatas de deleção e cuidado com a cascata em chaves primárias, isso não deve ser usado.
-
+-- A primeira cardinalidade é sempre da tabela que está sendo criada logo abaixo
 -- Criação da tabela Autor
+-- Relaciona-se com tabela Trabalho, cardinalidade N:, relacionamento Submete
+-- Relaciona-se com tabela FormatosCitacao, cardinalidade 1:
 CREATE TABLE IF NOT EXISTS Autor(
-	idPessoa BIGSERIAL NOT NULL,
-	CONSTRAINT autor_pk PRIMARY KEY(idPessoa),
-	CONSTRAINT idPessoa_fk FOREIGN KEY(idPessoa)
+	idAutor INTEGER NOT NULL,
+	CONSTRAINT autor_pk PRIMARY KEY(idAutor),
+	CONSTRAINT idPessoa_fk FOREIGN KEY(idAutor)
 		REFERENCES Pessoa(idPessoa)
-			ON DELETE CASCADE ON UPDATE CASCADE
 ); 
 
 -- Criação da tabela FormatosCitacao 
+-- Atributo multivalorado de Autor
+-- Relaciona-se com a tabela Autor, cardinalidade N:
 CREATE TABLE IF NOT EXISTS FormatosCitacao(
-	idAutor BIGSERIAL NOT NULL,
+	idAutor INTEGER NOT NULL,
 	forma VARCHAR(40),
-	CONSTRAINT formatosCitacao_pk PRIMARY KEY (idAutor),
+	CONSTRAINT formatosCitacao_pk PRIMARY KEY (idAutor, forma),
 	CONSTRAINT idAutor_fk FOREIGN KEY (idAutor)
-		REFERENCES Autor(idPessoa)
-			ON DELETE CASCADE ON UPDATE CASCADE
+		REFERENCES Autor(idAutor)
 );
 
 
 -- Criação da tabela Avaliador
+-- Relaciona-se com a tabela Trabalho, cardinalidade N:N, relacionamento Avalia
+-- Relaciona-se com a tabela CertificadoAvaliador, cardinalidade 1:1, relacionamento Recebe
+-- Relaciona-se com tabela AreasAptas, cardinalidade 1:N
+-- Relaciona-se com tabela AreasInaptas, cardinalidade 1:N
 CREATE TABLE IF NOT EXISTS Avaliador(
-	idAvaliador BIGSERIAL NOT NULL,
+	idAvaliador INTEGER NOT NULL,
 	dataEnvioConv DATE NOT NULL,
 	dataRespConv DATE,
 	CONSTRAINT avaliador_pk PRIMARY KEY (idAvaliador),
 	CONSTRAINT idAvaliador_fk FOREIGN KEY (idAvaliador)
 		REFERENCES Pessoa(idPessoa)
-			ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Criação da tabela PrazoRespostaAvaliador
-CREATE TABLE IF NOT EXISTS PrazoResportaAvaliador(
+CREATE TABLE IF NOT EXISTS PrazoRespostaAvaliador(
 	dataEnvioConv DATE NOT NULL,
 	prazoRespConv DATE,
 	CONSTRAINT prazoResp PRIMARY KEY (dataEnvioConv)
 );
 
 -- Criação da tabela AreasAptas
+-- Atributo multivalorado de Avaliador
+-- Relaciona-se com tabela Avaliador, cardinalidade N:1
 CREATE TABLE IF NOT EXISTS AreasAptas(
-	idAvaliador BIGSERIAL NOT NULL,
+	idAvaliador INTEGER NOT NULL,
 	areaApta VARCHAR(20),
 	CONSTRAINT areasAptas_pk PRIMARY KEY (idAvaliador),
 	CONSTRAINT idAvaliador_fk FOREIGN KEY (idAvaliador)
 		REFERENCES Pessoa(idPessoa)
-			ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Criação da tabela AreasInaptas
+-- Atributo multivalorado de Avaliador
+-- Relaciona-se com tabela Avaliador, cardinalidade N:1
 CREATE TABLE IF NOT EXISTS AreasInaptas(
-	idAvaliador BIGSERIAL NOT NULL,
+	idAvaliador INTEGER NOT NULL,
 	areaInapta VARCHAR(20),
 	CONSTRAINT areasInaptas_pk PRIMARY KEY (idAvaliador),
 	CONSTRAINT idAvaliador_fk FOREIGN KEY (idAvaliador)
 		REFERENCES Pessoa(idPessoa)
-			ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Criação da tabela CertificadoAvaliador
+-- Relaciona-se com a tabela Avaliador, cardinalidade 1:1, relacionamento Recebe
+-- Relaciona-se com tabela ArquivosCertificado, cardinalidade 1:N
 CREATE TABLE IF NOT EXISTS CertificadoAvaliador(
-	idAvaliador BIGSERIAL NOT NULL,
+	idAvaliador INTEGER NOT NULL,
 	codCertificado BIGSERIAL NOT NULL,
 	CONSTRAINT certificadoAvaliador_pk PRIMARY KEY (idAvaliador),
 	CONSTRAINT idAvaliador_fk FOREIGN KEY (idAvaliador)
 		REFERENCES Pessoa(idPessoa)
-			ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 -- Criação da tabela ArquivosCertificado
+-- Relaciona-se com tabela CertificadoAvaliador, cardinalidade N:1
 CREATE TABLE IF NOT EXISTS ArquivosCertificado (
 
-	idAvaliador BIGSERIAL NOT NULL,
+	idAvaliador INTEGER NOT NULL,
 	documento varchar(150),           	
 
 	CONSTRAINT arquivosCertificado_pk PRIMARY KEY (idAvaliador),
@@ -694,16 +702,14 @@ CREATE TABLE IF NOT EXISTS ArquivosCertificado (
 CREATE TABLE IF NOT EXISTS Avalia(
 
     idAvalia BIGSERIAL PRIMARY KEY,
-    idTrabalho BIGSERIAL NOT NULL,
-    idAvaliador BIGSERIAL NOT NULL,
+    idTrabalho INTEGER NOT NULL,
+    idAvaliador INTEGER NOT NULL,
     
     FOREIGN KEY (idTrabalho)
-        REFERENCES Trabalho (idTrabalho)
-        ON UPDATE CASCADE ON DELETE CASCADE,
+        REFERENCES Trabalho (idTrabalho),
 
     FOREIGN KEY (idAvaliador)
-        REFERENCES Avaliador (idAvaliador)
-        ON UPDATE CASCADE ON DELETE CASCADE,
+        REFERENCES Avaliador (idAvaliador),
     
     UNIQUE(idTrabalho,idAvaliador)
 );
@@ -720,20 +726,32 @@ CREATE TABLE IF NOT EXISTS PrazoAvaliacao(
 -- Criação da tabela Avaliacao
 CREATE TABLE IF NOT EXISTS Avaliacao(
 
-    idAvalia BIGSERIAL NOT NULL,
+    idAvalia INTEGER NOT NULL,
     dataAtribuicao  DATE NOT NULL,
     conflito boolean NOT NULL,
     dataResposta DATE NOT NULL DEFAULT CURRENT_DATE,
-    justificativa VARCHAR(100),
+    justificativa VARCHAR(500),
 
     CONSTRAINT Avaliacao_pk PRIMARY KEY (idAvalia, dataAtribuicao),
 
     CONSTRAINT idAvalia_fk FOREIGN KEY (idAvalia)
-        REFERENCES Avalia (idAvalia)
-        ON UPDATE CASCADE ON DELETE CASCADE,
+        REFERENCES Avalia (idAvalia),
     
     CONSTRAINT dataAtribuicao_fk FOREIGN KEY (dataAtribuicao)
         REFERENCES PrazoAvaliacao (dataAtribuicao)
-        ON UPDATE CASCADE ON DELETE CASCADE
 
+);
+
+-- Criação da Tabela SubmeteTrabalho
+CREATE TABLE IF NOT EXISTS SubmeteTrabalho(
+    idAutor INTEGER NOT NULL,
+    idTrabalho INTEGER NOT NULL,
+    ordemAutoria VARCHAR(200),
+    CONSTRAINT submeteTrabalho_pk PRIMARY KEY (idAutor, idTrabalho),
+    CONSTRAINT idAutor_fk FOREIGN KEY (idAutor)
+        REFERENCES Autor (idAutor),
+        
+    CONSTRAINT idTrabalho_fk FOREIGN KEY (idTrabalho)
+        REFERENCES Trabalho (idTrabalho)
+    
 );
