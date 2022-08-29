@@ -121,11 +121,10 @@ begin
     	WHERE idTrabalho = idTrabalho;
 	commit;
 end;$$
-
 -- Inserção na tabela IdiomasAceitos
 CREATE or REPLACE PROCEDURE InsertIdiomasAceitos (
     idioma CHAR,
-    idEdital INTEGER, 
+    idEdital INTEGER 
    
 )
 language plpgsql
@@ -143,7 +142,7 @@ end;$$
 Comentei pois não sei se faz sentido atualizar um idioma
 CREATE or REPLACE PROCEDURE UpdateIdiomasAceitos (
     idioma CHAR,
-    idEdital INTEGER, 
+    idEdital INTEGER 
    
 )
 language plpgsql
@@ -161,7 +160,7 @@ end;$$
 CREATE or REPLACE PROCEDURE InsertEixosApresentacao (
     idEixo INTEGER,
     idEdital INTEGER,
-    nomeEixo VARCHAR(20),
+    nomeEixo VARCHAR(20)
     
 )
 language plpgsql
@@ -176,7 +175,7 @@ end;$$
 CREATE or REPLACE PROCEDURE UpdateEixosApresentacao (
     idEixo INTEGER,
     idEdital INTEGER,
-    nomeEixo VARCHAR(20),
+    nomeEixo VARCHAR(20)
     
 )
 language plpgsql
@@ -193,7 +192,7 @@ end;$$
 -- Inserção na tabela SubEixosApresentacao
 CREATE or REPLACE PROCEDURE InserSubEixosApresentacao (
     idEixo INTEGER,
-    nomeSubEixo VARCHAR(20),
+    nomeSubEixo VARCHAR(20)
     
 )
 language plpgsql
@@ -207,7 +206,7 @@ end;$$
 -- Atualização da tabela SubEixosApresentacao 
 CREATE or REPLACE PROCEDURE UpdateSubEixosApresentacao (
     idEixo INTEGER,
-    nomeSubEixo VARCHAR(20),    
+    nomeSubEixo VARCHAR(20)    
 )
 language plpgsql
 as $$
