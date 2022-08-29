@@ -121,3 +121,99 @@ begin
     	WHERE idTrabalho = idTrabalho;
 	commit;
 end;$$
+
+-- Inserção na tabela IdiomasAceitos
+CREATE or REPLACE PROCEDURE InsertIdiomasAceitos (
+    idioma CHAR,
+    idEdital INTEGER, 
+   
+)
+language plpgsql
+as $$
+begin
+    INSERT INTO IdiomasAceitos(idioma, idEdital)
+    VALUES (idioma, idEdital);
+    commit;
+end;$$
+
+
+
+-- Atualização da tabela IdiomasAceitos
+/*
+Comentei pois não sei se faz sentido atualizar um idioma
+CREATE or REPLACE PROCEDURE UpdateIdiomasAceitos (
+    idioma CHAR,
+    idEdital INTEGER, 
+   
+)
+language plpgsql
+as $$
+begin
+    UPDATE IdiomasAceitos
+    SET idioma = idioma AND 
+    idEdital = idEdital;
+    commit;
+end;$$
+*/
+
+
+-- Inserção na tabela EixosApresentacao 
+CREATE or REPLACE PROCEDURE InsertEixosApresentacao (
+    idEixo INTEGER,
+    idEdital INTEGER,
+    nomeEixo VARCHAR(20),
+    
+)
+language plpgsql
+as $$
+begin
+    INSERT INTO EixosApresentacao(idEixo, idEdital, nomeEixo)
+    VALUES (idEixo, idEdital, nomeEixo);
+    commit;
+end;$$
+
+-- Atualização da tabela EixosApresentacao 
+CREATE or REPLACE PROCEDURE UpdateEixosApresentacao (
+    idEixo INTEGER,
+    idEdital INTEGER,
+    nomeEixo VARCHAR(20),
+    
+)
+language plpgsql
+as $$
+begin
+    UPDATE EixosApresentacao
+    SET idEdital = idEdital AND
+        nomeEixo = nomeEixo
+        WHERE idEixo = idEixo;
+    commit;
+end;$$
+
+
+-- Inserção na tabela SubEixosApresentacao
+CREATE or REPLACE PROCEDURE InserSubEixosApresentacao (
+    idEixo INTEGER,
+    nomeSubEixo VARCHAR(20),
+    
+)
+language plpgsql
+as $$
+begin
+    INSERT INTO EixosApresentacao(idEixo, nomeSubEixo)
+    VALUES (idEixo, nomeSubEixo);
+    commit;
+end;$$
+
+-- Atualização da tabela SubEixosApresentacao 
+CREATE or REPLACE PROCEDURE UpdateSubEixosApresentacao (
+    idEixo INTEGER,
+    nomeSubEixo VARCHAR(20),    
+)
+language plpgsql
+as $$
+begin
+    UPDATE EixosApresentacao
+    SET nomeSubEixo = nomeSubEixo
+        WHERE idEixo = idEixo;
+    commit;
+end;$$
