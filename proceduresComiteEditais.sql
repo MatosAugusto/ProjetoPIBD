@@ -252,7 +252,7 @@ end;$$
 ------------------------------------------------------------------------------------------------------------------
 
 create or replace procedure InsertPeriodoSubmissoesEdital(
-	idCronogramaEdital INTEGER,
+    idCronogramaEdital INTEGER,
     inicioPeriodoI DATE,
     fimPeriodoI DATE
 )
@@ -265,7 +265,7 @@ begin
 end;$$
 
 create or replace procedure UpdatePeriodoSubmissoesEdital(
-	idCronogramaEdital INTEGER,
+    idCronogramaEdital INTEGER,
     inicioPeriodoI DATE,
     fimPeriodoI DATE
 )
@@ -280,7 +280,7 @@ end;$$
 ---------------------------------------------------------------------------------------------------------------
 
 create or replace procedure InsertPeriodoSubmissoesEdital(
-	idCronogramaEdital INTEGER,
+    idCronogramaEdital INTEGER,
     inicioPeriodoS DATE,
     fimPeriodoS DATE
 )
@@ -293,7 +293,7 @@ begin
 end;$$
 
 create or replace procedure UpdatePeriodoSubmissoesEdital(
-	idCronogramaEdital INTEGER,
+    idCronogramaEdital INTEGER,
     inicioPeriodoS DATE,
     fimPeriodoS DATE
 )
@@ -302,14 +302,14 @@ as $$
 begin
 	UPDATE PeriodoSubmissoesEdital
 	SET inicioPeriodoS = inicioPeriodoS AND fimPeriodoS = fimPeriodoS
-    WHERE idCronogramaEdital = idCronogramaEdital;
+    	WHERE idCronogramaEdital = idCronogramaEdital;
 	commit;
 end;$$
 
 
 
 create or replace procedure InsertRegras(
-	idEdital INTEGER,
+    idEdital INTEGER,
     descricao VARCHAR(200),
     modelo BYTEA
 )
@@ -322,7 +322,7 @@ begin
 end;$$
 
 create or replace procedure UpdateRegras(
-	idEdital INTEGER,
+    idEdital INTEGER,
     descricao VARCHAR(200),
     modelo BYTEA
 )
@@ -331,12 +331,12 @@ as $$
 begin
 	UPDATE Regras
 	SET descricao = descricao AND modelo = modelo
-    WHERE idEdital = idEdital;
+    	WHERE idEdital = idEdital;
 	commit;
 end;$$
 
 create or replace procedure InsertSubAreasApresentacao(
-	idArea INTEGER,
+    idArea INTEGER,
     nomeSubArea VARCHAR(20),
 )
 language plpgsql
@@ -348,7 +348,7 @@ begin
 end;$$
 
 create or replace procedure UpdateSubAreasApresentacao(
-	idArea INTEGER,
+    idArea INTEGER,
     nomeSubArea VARCHAR(20),
 )
 language plpgsql
@@ -356,12 +356,12 @@ as $$
 begin
 	UPDATE SubAreasApresentacao
 	SET nomeSubArea = nomeSubArea
-    WHERE idArea = idArea;
+   	WHERE idArea = idArea;
 	commit;
 end;$$
 
 create or replace procedure InsertAreasApresentacao(
-	idArea INTEGER,
+    idArea INTEGER,
     idEdital INTEGER,
     nomeArea VARCHAR(20)
 )
@@ -374,7 +374,7 @@ begin
 end;$$
 
 create or replace procedure UpdateAreasApresentacao(
-	idArea INTEGER,
+    idArea INTEGER,
     idEdital INTEGER,
     nomeArea VARCHAR(20)
 )
@@ -383,6 +383,6 @@ as $$
 begin
 	UPDATE AreasApresentacao
 	SET idEdital = idEdital AND nomeArea = nomeArea
-    WHERE idArea = idArea;
+    	WHERE idArea = idArea;
 	commit;
 end;$$
