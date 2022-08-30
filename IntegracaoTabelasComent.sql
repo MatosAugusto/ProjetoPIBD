@@ -438,21 +438,30 @@ CREATE TABLE IF NOT EXISTS Edital (
     dataUltimaEdicao DATE,
     dataPublicacaoOriginal DATE,
 
-    PRIMARY KEY(idEdital),
-    FOREIGN KEY(sigla) REFERENCES Evento(sigla),
-    UNIQUE(sigla, url)
+    -- PRIMARY KEY(idEdital),
+    -- FOREIGN KEY(sigla) REFERENCES Evento(sigla),
+    -- UNIQUE(sigla, url)
+    
+    CONSTRAINT edital_pk PRIMARY KEY (idEdital),
+    CONSTRAINT edital_fk FOREIGN KEY (sigla)
+        REFERENCES Evento(sigla),
+    CONSTRAINT edital_unique UNIQUE (sigla, url)
 );
 
 -- Criação da tabela IdiomasAceitos
 CREATE TABLE IF NOT EXISTS IdiomasAceitos (
     idioma CHAR NOT NULL,
-    idEdital SERIAL NOT NULL, 
+    -- idEdital SERIAL NOT NULL, 
+    idEdital INTEGER NOT NULL, 
     -- Ainda temos que ver como vai ficar essa questão do tipo SERIAL nas chaves estrangeiras
     
-    CONSTRAINT idiomaCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J')),
-
-    PRIMARY KEY(idioma, idEdital),
-    FOREIGN KEY(idEdital) REFERENCES Edital(idEdital)
+    -- PRIMARY KEY(idioma, idEdital),
+    -- FOREIGN KEY(idEdital) REFERENCES Edital(idEdital)
+    
+    CONSTRAINT idiomas_pk PRIMARY KEY (idioma, idEdital),
+    CONSTRAINT idiomas_fk FOREIGN KEY (idEdital)
+        REFERENCES Edital(idEdital),
+    CONSTRAINT idiomas_check CHECK(idioma IN('P', 'I', 'E', 'A', 'J'))
 );
 
 -- Criação da tabela EixosApresentacao 
@@ -461,21 +470,32 @@ CREATE TABLE IF NOT EXISTS IdiomasAceitos (
 */
 CREATE TABLE IF NOT EXISTS EixosApresentacao (
     idEixo SERIAL,
-    idEdital SERIAL NOT NULL,
+    -- idEdital SERIAL NOT NULL,
+    idEdital INTEGER NOT NULL,
     nomeEixo VARCHAR(20) NOT NULL,
     
-    PRIMARY KEY(idEixo),
-    FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
-    UNIQUE(idEdital, nomeEixo)
+    -- PRIMARY KEY(idEixo),
+    -- FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
+    -- UNIQUE(idEdital, nomeEixo)
+    
+    CONSTRAINT eixos_pk PRIMARY KEY (idEixo),
+    CONSTRAINT eixos_fk FOREIGN KEY (idEdital)
+        REFERENCES Edital(idEdital),
+    CONSTRAINT eixos_unique UNIQUE (idEdital, nomeEixo)
 );
 
 -- Criação da tabela SubEixosApresentacao
 CREATE TABLE IF NOT EXISTS SubEixosApresentacao (
-    idEixo SERIAL NOT NULL,
+    -- idEixo SERIAL NOT NULL,
+    idEixo INTEGER NOT NULL,
     nomeSubEixo VARCHAR(20) NOT NULL,
     
-    PRIMARY KEY(nomeSubEixo, idEixo),
-    FOREIGN KEY(idEixo) REFERENCES EixosApresentacao(idEixo)
+    -- PRIMARY KEY(nomeSubEixo, idEixo),
+    -- FOREIGN KEY(idEixo) REFERENCES EixosApresentacao(idEixo)
+
+    CONSTRAINT subEixos_pk PRIMARY KEY(nomeSubEixo, idEixo),
+    CONSTRAINT subEixos_fk FOREIGN KEY(idEixo)
+        REFERENCES EixosApresentacao(idEixo)
 );
 
 -- Criação da tabela AreasApresentacao
@@ -484,31 +504,47 @@ CREATE TABLE IF NOT EXISTS SubEixosApresentacao (
 */
 CREATE TABLE IF NOT EXISTS AreasApresentacao (
     idArea SERIAL,
-    idEdital SERIAL NOT NULL,
+    -- idEdital SERIAL NOT NULL,
+    idEdital INTEGER NOT NULL,
     nomeArea VARCHAR(20) NOT NULL,
     
-    PRIMARY KEY(idArea),
-    FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
-    UNIQUE(idEdital, nomeArea)
+    -- PRIMARY KEY(idArea),
+    -- FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
+    -- UNIQUE(idEdital, nomeArea)
+
+    CONSTRAINT areas_pk PRIMARY KEY (idArea),
+    CONSTRAINT areas_fk FOREIGN KEY (idEdital)
+        REFERENCES Edital(idEdital),
+    CONSTRAINT areas_unique UNIQUE (idEdital, nomeArea)
 );
 
 -- Criação da tabela SubAreasApresentacao
 CREATE TABLE IF NOT EXISTS SubAreasApresentacao (
-    idArea SERIAL NOT NULL,
+    -- idArea SERIAL NOT NULL,
+    idArea INTEGER NOT NULL,
     nomeSubArea VARCHAR(20) NOT NULL,
     
-    PRIMARY KEY(nomeSubArea, idArea),
-    FOREIGN KEY(idArea) REFERENCES AreasApresentacao(idArea)
+    -- PRIMARY KEY(nomeSubArea, idArea),
+    -- FOREIGN KEY(idArea) REFERENCES AreasApresentacao(idArea)
+    
+    CONSTRAINT subAreas_pk PRIMARY KEY(nomeSubArea, idArea),
+    CONSTRAINT subAreas_fk FOREIGN KEY(idArea)
+        REFERENCES AreasApresentacao(idArea)
 );
 
 -- Criação da tabela Regras
 CREATE TABLE IF NOT EXISTS Regras (
-    idEdital SERIAL NOT NULL,
+    -- idEdital SERIAL NOT NULL,
+    idEdital INTEGER NOT NULL,
     descricao VARCHAR(200),
     modelo BYTEA,
     
-    PRIMARY KEY(idEdital),
-    FOREIGN KEY(idEdital) REFERENCES Edital(idEdital)
+    -- PRIMARY KEY(idEdital),
+    -- FOREIGN KEY(idEdital) REFERENCES Edital(idEdital)
+
+    CONSTRAINT regras_pk PRIMARY KEY(idEdital),
+    CONSTRAINT regras_fk FOREIGN KEY(idEdital)
+        REFERENCES Edital(idEdital)
 );
 
 -- Criação da tabela CronogramaEdital
@@ -518,34 +554,50 @@ CREATE TABLE IF NOT EXISTS Regras (
 */
 CREATE TABLE IF NOT EXISTS CronogramaEdital (
     idCronogramaEdital SERIAL,
-    idEdital SERIAL NOT NULL,
+    -- idEdital SERIAL NOT NULL,
+    idEdital INTEGER NOT NULL,
     dataPublicacaoOriginal DATE NOT NULL,
     dataRealizacao DATE,
     dataDivulgacaoListaAprovados DATE,
     
-    PRIMARY KEY(idCronogramaEdital),
-    FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
-    UNIQUE(idEdital, dataPublicacaoOriginal)
+    -- PRIMARY KEY(idCronogramaEdital),
+    -- FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
+    -- UNIQUE(idEdital, dataPublicacaoOriginal)
+
+    CONSTRAINT cronograma_pk PRIMARY KEY(idCronogramaEdital),
+    CONSTRAINT cronograma_fk FOREIGN KEY(idEdital) 
+        REFERENCES Edital(idEdital),
+    CONSTRAINT cronograma_unique UNIQUE(idEdital, dataPublicacaoOriginal)
 );
 
 -- Criação da tabela PeriodoInscricoesEdital
 CREATE TABLE IF NOT EXISTS PeriodoInscricoesEdital (
-    idCronogramaEdital SERIAL NOT NULL,
+    -- idCronogramaEdital SERIAL NOT NULL,
+    idCronogramaEdital INTEGER NOT NULL,
     inicioPeriodoI DATE NOT NULL,
     fimPeriodoI DATE NOT NULL,
     
-    PRIMARY KEY(inicioPeriodoI, fimPeriodoI, idCronogramaEdital),
-    FOREIGN KEY(idCronogramaEdital) REFERENCES CronogramaEdital(idCronogramaEdital)
+    -- PRIMARY KEY(inicioPeriodoI, fimPeriodoI, idCronogramaEdital),
+    -- FOREIGN KEY(idCronogramaEdital) REFERENCES CronogramaEdital(idCronogramaEdital)
+
+    CONSTRAINT periodoIns_pk PRIMARY KEY(inicioPeriodoI, fimPeriodoI, idCronogramaEdital),
+    CONSTRAINT periodoIns_fk FOREIGN KEY(idCronogramaEdital) 
+        REFERENCES CronogramaEdital(idCronogramaEdital)
 );
 
 -- Criação da tabela PeriodoSubmissoesEdital
 CREATE TABLE IF NOT EXISTS PeriodoSubmissoesEdital (
-    idCronogramaEdital SERIAL NOT NULL,
+    -- idCronogramaEdital SERIAL NOT NULL,
+    idCronogramaEdital INTEGER NOT NULL,
     inicioPeriodoS DATE NOT NULL,
     fimPeriodoS DATE NOT NULL,
     
-    PRIMARY KEY(inicioPeriodoS, fimPeriodoS, idCronogramaEdital),
-    FOREIGN KEY(idCronogramaEdital) REFERENCES CronogramaEdital(idCronogramaEdital)
+    -- PRIMARY KEY(inicioPeriodoS, fimPeriodoS, idCronogramaEdital),
+    -- FOREIGN KEY(idCronogramaEdital) REFERENCES CronogramaEdital(idCronogramaEdital)
+
+    CONSTRAINT periodoSub_pk PRIMARY KEY(inicioPeriodoS, fimPeriodoS, idCronogramaEdital),
+    CONSTRAINT periodoSub_fk FOREIGN KEY(idCronogramaEdital) 
+        REFERENCES CronogramaEdital(idCronogramaEdital)
 );
 
 -- Criação da tabela Trabalho
@@ -554,7 +606,8 @@ CREATE TABLE IF NOT EXISTS PeriodoSubmissoesEdital (
    - VersaoSintese (1, n)
 */
 CREATE TABLE IF NOT EXISTS Trabalho (
-    idEdital SERIAL NOT NULL,
+    -- idEdital SERIAL NOT NULL,
+    idEdital INTEGER NOT NULL,
     idTrabalho SERIAL NOT NULL,
     titulo VARCHAR(64) NOT NULL,
     palavraChave1 VARCHAR(16) NOT NULL,
@@ -569,41 +622,57 @@ CREATE TABLE IF NOT EXISTS Trabalho (
     palavraChave5 VARCHAR(16),
     tipoTrabalho VARCHAR(32) NOT NULL,
 
-    PRIMARY KEY(idTrabalho),
-    FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
+    -- PRIMARY KEY(idTrabalho),
+    -- FOREIGN KEY(idEdital) REFERENCES Edital(idEdital),
 
     -- Tentei rodar assim e deu erro
     -- CONSTRAINT idiomaTrabalhoCheck CHECK(idiomaPrincipal, idioma2, idioma3 IN('P', 'I', 'E', 'A', 'J')),
 
-    CONSTRAINT idiomaPTrabalhoCheck CHECK(idiomaPrincipal IN('P', 'I', 'E', 'A', 'J')),
-    CONSTRAINT idioma2TrabalhoCheck CHECK(idioma2 IN('P', 'I', 'E', 'A', 'J')),
-    CONSTRAINT idioma3TrabalhoCheck CHECK(idioma3 IN('P', 'I', 'E', 'A', 'J')),
-    CHECK (tipoTrabalho IN ('Oficina', 'Minicurso','Artigo')),
-    UNIQUE(titulo, palavraChave1, palavraChave2, palavraChave3, idiomaPrincipal)
+    
+    -- CHECK (tipoTrabalho IN ('Oficina', 'Minicurso','Artigo')),
+    -- UNIQUE(titulo, palavraChave1, palavraChave2, palavraChave3, idiomaPrincipal)
+
+    CONSTRAINT idiomaPTrabalho_check CHECK(idiomaPrincipal IN('P', 'I', 'E', 'A', 'J')),
+    CONSTRAINT idioma2Trabalho_check CHECK(idioma2 IN('P', 'I', 'E', 'A', 'J')),
+    CONSTRAINT idioma3Trabalho_check CHECK(idioma3 IN('P', 'I', 'E', 'A', 'J')),
+
+    CONSTRAINT trabalho_pk PRIMARY KEY(idTrabalho),
+    CONSTRAINT trabalho_fk FOREIGN KEY(idEdital) 
+        REFERENCES Edital(idEdital),
+    CONSTRAINT tipoTrabalho_check CHECK (tipoTrabalho IN ('Oficina', 'Minicurso','Artigo')),
+    CONSTRAINT trabalho_unique UNIQUE(titulo, palavraChave1, palavraChave2, palavraChave3, idiomaPrincipal)
 );
 
 -- Criação da tabela Artigo
 CREATE TABLE IF NOT EXISTS Artigo (
-  idTrabalho SERIAL NOT NULL,
-  tipoArtigo VARCHAR(32) NOT NULL,
+    -- idTrabalho SERIAL NOT NULL,
+    idTrabalho INTEGER,
+    tipoArtigo VARCHAR(32) NOT NULL,
     
-  PRIMARY KEY(idTrabalho),
-  FOREIGN KEY(idTrabalho) REFERENCES Trabalho(idTrabalho),
+    -- PRIMARY KEY(idTrabalho),
+    -- FOREIGN KEY(idTrabalho) REFERENCES Trabalho(idTrabalho),
+    -- CHECK (tipoArtigo IN ('Resumo', 'ResumoEstendido', 'ArtigoCompleto'))
 
-  CHECK (tipoArtigo IN ('Resumo', 'ResumoEstendido', 'ArtigoCompleto'))
+    CONSTRAINT artigo_pk PRIMARY KEY(idTrabalho),
+    CONSTRAINT artigo_fk FOREIGN KEY(idTrabalho) 
+        REFERENCES Trabalho(idTrabalho),
+    CONSTRAINT tipoArtigo_check CHECK (tipoArtigo IN ('Resumo', 'ResumoEstendido', 'ArtigoCompleto'))
 );
 
 -- Criação da tabela VersaoSintese
 CREATE TABLE IF NOT EXISTS VersaoSintese (
-  idTrabalho SERIAL NOT NULL,
-  idioma CHAR NOT NULL,
-  texto TEXT NOT NULL,
-  ehPrimario BOOLEAN NOT NULL,
+    idTrabalho INTEGER,
+    idioma CHAR NOT NULL,
+    texto TEXT NOT NULL,
+    ehPrimario BOOLEAN NOT NULL,
     
-  PRIMARY KEY(idTrabalho),
-  FOREIGN KEY(idTrabalho) REFERENCES Artigo(idTrabalho),
+    -- PRIMARY KEY(idTrabalho),
+    -- FOREIGN KEY(idTrabalho) REFERENCES Artigo(idTrabalho),
 
-  CONSTRAINT idiomaSinteseCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J'))
+    CONSTRAINT sintese_pk PRIMARY KEY(idTrabalho),
+    CONSTRAINT sintese_fk FOREIGN KEY(idTrabalho) 
+        REFERENCES Artigo(idTrabalho),
+    CONSTRAINT idiomaSinteseCheck CHECK(idioma IN('P', 'I', 'E', 'A', 'J'))
 );
 
 

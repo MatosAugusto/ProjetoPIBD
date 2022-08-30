@@ -121,6 +121,8 @@ begin
     	WHERE idTrabalho = idTrabalho;
 	commit;
 end;$$
+
+
 -- Inserção na tabela IdiomasAceitos
 CREATE or REPLACE PROCEDURE InsertIdiomasAceitos (
     idioma CHAR,
@@ -215,4 +217,172 @@ begin
     SET nomeSubEixo = nomeSubEixo
         WHERE idEixo = idEixo;
     commit;
+end;$$
+
+
+
+create or replace procedure InsertCronogramaEdital(
+    idEdital INTEGER,
+    dataPublicacaoOriginal DATE,
+    dataRealizacao DATE,
+    dataDivulgacaoListaAprovados DATE
+)
+language plpgsql
+as $$
+begin
+	INSERT INTO CronogramaEdital(idEdital, dataPublicacaoOriginal, dataRealizacao, dataDivulgacaoListaAprovados)
+	VALUES (idEdital, dataPublicacaoOriginal, dataRealizacao, dataDivulgacaoListaAprovados);
+	commit;
+end;$$
+
+create or replace procedure UpdateCronogramaEdital(
+    idCronogramaEdital INTEGER,
+    dataPublicacaoOriginal DATE,
+    dataRealizacao DATE,
+    dataDivulgacaoListaAprovados DATE
+)
+language plpgsql
+as $$
+begin
+	UPDATE CronogramaEdital
+	SET dataPublicacaoOriginal = dataPublicacaoOriginal AND dataRealizacao = dataRealizacao AND dataDivulgacaoListaAprovados = dataDivulgacaoListaAprovados
+        WHERE idCronogramaEdital = idCronogramaEdital;
+	commit;
+end;$$
+------------------------------------------------------------------------------------------------------------------
+
+create or replace procedure InsertPeriodoSubmissoesEdital(
+	idCronogramaEdital INTEGER,
+    inicioPeriodoI DATE,
+    fimPeriodoI DATE
+)
+language plpgsql
+as $$
+begin
+	INSERT INTO PeriodoSubmissoesEdital(idCronogramaEdital, inicioPeriodoI, fimPeriodoI)
+	VALUES (idCronogramaEdital, inicioPeriodoI, fimPeriodoI);
+	commit;
+end;$$
+
+create or replace procedure UpdatePeriodoSubmissoesEdital(
+	idCronogramaEdital INTEGER,
+    inicioPeriodoI DATE,
+    fimPeriodoI DATE
+)
+language plpgsql
+as $$
+begin
+	UPDATE PeriodoSubmissoesEdital
+	SET inicioPeriodoI = inicioPeriodoI AND fimPeriodoI = fimPeriodoI
+        WHERE idCronogramaEdital = idCronogramaEdital;
+	commit;
+end;$$
+---------------------------------------------------------------------------------------------------------------
+
+create or replace procedure InsertPeriodoSubmissoesEdital(
+	idCronogramaEdital INTEGER,
+    inicioPeriodoS DATE,
+    fimPeriodoS DATE
+)
+language plpgsql
+as $$
+begin
+	INSERT INTO PeriodoSubmissoesEdital(idCronogramaEdital, inicioPeriodoS, fimPeriodoS)
+	VALUES (idCronogramaEdital, inicioPeriodoS, fimPeriodoS);
+	commit;
+end;$$
+
+create or replace procedure UpdatePeriodoSubmissoesEdital(
+	idCronogramaEdital INTEGER,
+    inicioPeriodoS DATE,
+    fimPeriodoS DATE
+)
+language plpgsql
+as $$
+begin
+	UPDATE PeriodoSubmissoesEdital
+	SET inicioPeriodoS = inicioPeriodoS AND fimPeriodoS = fimPeriodoS
+    WHERE idCronogramaEdital = idCronogramaEdital;
+	commit;
+end;$$
+
+
+
+create or replace procedure InsertRegras(
+	idEdital INTEGER,
+    descricao VARCHAR(200),
+    modelo BYTEA
+)
+language plpgsql
+as $$
+begin
+	INSERT INTO Regras(idEdital, descricao, modelo)
+	VALUES (idEdital, descricao, modelo);
+	commit;
+end;$$
+
+create or replace procedure UpdateRegras(
+	idEdital INTEGER,
+    descricao VARCHAR(200),
+    modelo BYTEA
+)
+language plpgsql
+as $$
+begin
+	UPDATE Regras
+	SET descricao = descricao AND modelo = modelo
+    WHERE idEdital = idEdital;
+	commit;
+end;$$
+
+create or replace procedure InsertSubAreasApresentacao(
+	idArea INTEGER,
+    nomeSubArea VARCHAR(20),
+)
+language plpgsql
+as $$
+begin
+	INSERT INTO SubAreasApresentacao(idArea, nomeSubArea)
+	VALUES (idArea, nomeSubArea);
+	commit;
+end;$$
+
+create or replace procedure UpdateSubAreasApresentacao(
+	idArea INTEGER,
+    nomeSubArea VARCHAR(20),
+)
+language plpgsql
+as $$
+begin
+	UPDATE SubAreasApresentacao
+	SET nomeSubArea = nomeSubArea
+    WHERE idArea = idArea;
+	commit;
+end;$$
+
+create or replace procedure InsertAreasApresentacao(
+	idArea INTEGER,
+    idEdital INTEGER,
+    nomeArea VARCHAR(20)
+)
+language plpgsql
+as $$
+begin
+	INSERT INTO AreasApresentacao(idArea, idEdital, nomeArea)
+	VALUES (idArea, idEdital, nomeArea);
+	commit;
+end;$$
+
+create or replace procedure UpdateAreasApresentacao(
+	idArea INTEGER,
+    idEdital INTEGER,
+    nomeArea VARCHAR(20)
+)
+language plpgsql
+as $$
+begin
+	UPDATE AreasApresentacao
+	SET idEdital = idEdital AND nomeArea = nomeArea
+    WHERE idArea = idArea;
+	commit;
 end;$$
