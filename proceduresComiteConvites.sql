@@ -2,13 +2,13 @@
 create or replace procedure InsertCandidatoAPalestrante (
     emailPrincipal VARCHAR(50),
     pessoaQueIndicou VARCHAR(50),
-    miniCurriculo VARCHAR(50)
+    contatoPessoaIndicou VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
-	INSERT INTO CandidatoAPalestrante(emailPrincipal, pessoaQueIndicou, miniCurriculo)
-	VALUES (emailPrincipal, pessoaQueIndicou, miniCurriculo);
+	INSERT INTO CandidatoAPalestrante(emailPrincipal, pessoaQueIndicou, contatoPessoaIndicou)
+	VALUES (emailPrincipal, pessoaQueIndicou, contatoPessoaIndicou);
 	commit;
 end;$$
 
@@ -16,14 +16,14 @@ end;$$
 create or replace procedure UpdateCandidatoAPalestrante (
     emailPrincipal VARCHAR(50),
     pessoaQueIndicou VARCHAR(50),
-    miniCurriculo VARCHAR(50)
+    contatoPessoaIndicou VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
 	UPDATE CandidatoAPalestrante
 	SET pessoaQueIndicou = pessoaQueIndicou AND 
-        miniCurriculo = miniCurriculo
+        contatoPessoaIndicou = contatoPessoaIndicou
     WHERE emailPrincipal = emailPrincipal;
 	commit;
 end;$$
@@ -33,13 +33,14 @@ create or replace procedure InsertDescricaoCandidato (
     miniCurriculo VARCHAR(500),
     areaDeAtuacao VARCHAR(50),
     nome VARCHAR(50),
-    foto VARCHAR(500)
+    foto bytea,
+    emailPrincipal VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
-	INSERT INTO DescricaoCandidato(miniCurriculo, areaDeAtuacao, nome, foto)
-	VALUES (miniCurriculo, areaDeAtuacao, nome, foto);
+	INSERT INTO DescricaoCandidato(miniCurriculo, areaDeAtuacao, nome, foto, emailPrincipal)
+	VALUES (miniCurriculo, areaDeAtuacao, nome, foto, emailPrincipal);
 	commit;
 end;$$
 
@@ -48,7 +49,9 @@ create or replace procedure UpdateDescricaoCandidato (
     miniCurriculo VARCHAR(500),
     areaDeAtuacao VARCHAR(50),
     nome VARCHAR(50),
-    foto VARCHAR(500)
+    foto bytea,
+    emailPrincipal VARCHAR(50)
+
 )
 language plpgsql
 as $$
@@ -56,7 +59,8 @@ begin
 	UPDATE DescricaoCandidato
 	SET areaDeAtuacao = areaDeAtuacao AND 
         nome = nome AND 
-        foto = foto
+        foto = foto AND
+        emailPrincipal = emailPrincipal
     WHERE miniCurriculo = miniCurriculo;
 	commit;
 end;$$
@@ -64,53 +68,55 @@ end;$$
 -- Inserção na tabela LinksTrabalhosCandPalest
 create or replace procedure InsertLinksTrabalhosCandPalest (
     emailPrincipal VARCHAR(50),
-    links VARCHAR(100)
+    titulo VARCHAR (50),
+    uniclink VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
-	INSERT INTO LinksTrabalhosCandPalest(emailPrincipal, links)
-	VALUES (emailPrincipal, links);
+	INSERT INTO LinksTrabalhosCandPalest(emailPrincipal, titulo, uniclink)
+	VALUES (emailPrincipal, titulo, uniclink);
 	commit;
 end;$$
 
 -- Atualização da tabela LinksTrabalhosCandPalest
 create or replace procedure UpdateLinksTrabalhosCandPalest (
     emailPrincipal VARCHAR(50),
-    links VARCHAR(100)
+    titulo VARCHAR (50),
+    uniclink VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
 	UPDATE LinksTrabalhosCandPalest
-	SET links = links AND 
-    WHERE emailPrincipal = emailPrincipal;
+	SET uniclink = uniclink 
+    WHERE emailPrincipal = emailPrincipal AND titulo = titulo;
 	commit;
 end;$$
 
 -- Inserção na tabela EmailsSecundariosCandPalest
 create or replace procedure InsertEmailsSecundariosCandPalest (
     emailPrincipal VARCHAR(50),
-    emails VARCHAR(50)
+    email VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
-	INSERT INTO EmailsSecundariosCandPalest(emailPrincipal, emails)
-	VALUES (emailPrincipal, emails);
+	INSERT INTO EmailsSecundariosCandPalest(emailPrincipal, email)
+	VALUES (emailPrincipal, email);
 	commit;
 end;$$
 
 -- Atualização da tabela EmailsSecundariosCandPalest
 create or replace procedure UpdateCandidatoAPalestrante (
     emailPrincipal VARCHAR(50),
-    emails VARCHAR(50)
+    email VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
 	UPDATE EmailsSecundariosCandPalest
-	SET emails = emails AND 
+	SET email = email AND 
     WHERE emailPrincipal = emailPrincipal;
 	commit;
 end;$$
@@ -175,7 +181,8 @@ language plpgsql
 as $$
 begin
 	UPDATE Abordagem
-	SET emailPrincipal = emailPrincipal AND 
+	SET idCompostoPor = idCompostoPor AND
+        emailPrincipal = emailPrincipal AND 
         dataHoraAbordagem = dataHoraAbordagem AND 
         conteudo = conteudo AND
         meioComunicacao1 = meioComunicacao1 AND
@@ -191,19 +198,19 @@ end;$$
 -- Inserção na tabela CronogramaPalestra
 create or replace procedure InsertCronogramaPalestra (
     idAbordagem INTEGER,
+    idPalestra INTEGER,
     tipoEvento VARCHAR(50),
     dataDaPalestra date,
     horaDaPalestra time,
     duracaoPrevista interval,
     numeroDeSala INTEGER,
-    predio VARCHAR(50),
-    tituloDaPalestra VARCHAR(50)
+    predio VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
-	INSERT INTO CronogramaPalestra(tipoEvento, dataDaPalestra, horaDaPalestra, duracaoPrevista, numeroDeSala, predio, tituloDaPalestra, idAbordagem)
-	VALUES (tipoEvento, dataDaPalestra, horaDaPalestra, duracaoPrevista, numeroDeSala, predio, tituloDaPalestra, idAbordagem);
+	INSERT INTO CronogramaPalestra(tipoEvento, dataDaPalestra, horaDaPalestra, duracaoPrevista, numeroDeSala, predio, idAbordagem, idPalestra)
+	VALUES (tipoEvento, dataDaPalestra, horaDaPalestra, duracaoPrevista, numeroDeSala, predio, idAbordagem, idPalestra);
 	commit;
 end;$$
 
@@ -211,25 +218,25 @@ end;$$
 create or replace procedure UpdateCronogramaPalestra (
    
     idAbordagem INTEGER,
+    idPalestra INTEGER,
     tipoEvento VARCHAR(50),
     dataDaPalestra date,
     horaDaPalestra time,
     duracaoPrevista interval,
     numeroDeSala INTEGER,
-    predio VARCHAR(50),
-    tituloDaPalestra VARCHAR(50)
+    predio VARCHAR(50)
 )
 language plpgsql
 as $$
 begin
 	UPDATE CronogramaPalestra
-	SET tipoEvento = tipoEvento AND 
+	SET idPalestra = idPalestra AND
+        tipoEvento = tipoEvento AND 
         dataDaPalestra = dataDaPalestra AND 
         horaDaPalestra = horaDaPalestra AND
         duracaoPrevista = duracaoPrevista AND
         numeroDeSala = numeroDeSala AND
-        predio = predio AND
-        tituloDaPalestra = tituloDaPalestra
+        predio = predio
 
     	WHERE idAbordagem = idAbordagem;
 	commit;
@@ -240,33 +247,36 @@ end;$$
 
 -- Inserção na tabela Palestras
 create or replace procedure InsertPalestras (
+    idAbordagem INTEGER,
     tituloDaPalestra VARCHAR(50),
     resumoDaPalestra VARCHAR(500),
-    materialDeApoio VARCHAR(500),
+    materialDeApoio VARCHAR(500)
 )
 language plpgsql
 as $$
 begin
-	INSERT INTO Palestras(resumoDaPalestra, materialDeApoio, tituloDaPalestra)
-	VALUES (resumoDaPalestra, materialDeApoio, tituloDaPalestra);
+	INSERT INTO Palestras(idAbordagem, resumoDaPalestra, materialDeApoio, tituloDaPalestra)
+	VALUES (idAbordagem, resumoDaPalestra, materialDeApoio, tituloDaPalestra);
 	commit;
 end;$$
 
 -- Atualização da tabela Palestras
 create or replace procedure UpdatePalestras (
-   
+    idAbordagem INTEGER,
     tituloDaPalestra VARCHAR(50),
     resumoDaPalestra VARCHAR(500),
-    materialDeApoio VARCHAR(500),
+    materialDeApoio VARCHAR(500)
 )
 language plpgsql
 as $$
 begin
 	UPDATE Palestras
-	SET resumoDaPalestra = resumoDaPalestra AND 
+	SET idAbordagem = idAbordagem AND
+        tituloDaPalestra = tituloDaPalestra AND
+        resumoDaPalestra = resumoDaPalestra AND 
         materialDeApoio = materialDeApoio
 
-    	WHERE tituloDaPalestra = tituloDaPalestra;
+    	WHERE idPalestra = idPalestra;
 	commit;
 end;$$
 
@@ -308,13 +318,16 @@ end;$$
 create or replace procedure InsertDocumentosCronogramaPalestra (
     idAbordagem INTEGER,
     dataEntrega timestamp,
-    tipo VARCHAR(50),
+    documento bytea,
+    tituloDocumento varchar(20),
+    tipo varchar(5),
+    statusAtendimentoEnvio varchar (20)
 )
 language plpgsql
 as $$
 begin
-	INSERT INTO DocumentosCronogramaPalestra(dataEntrega, tipo, idAbordagem )
-	VALUES (dataEntrega, tipo, idAbordagem);
+	INSERT INTO DocumentosCronogramaPalestra(dataEntrega, tipo, idAbordagem, documento, tituloDocumento, statusAtendimentoEnvio )
+	VALUES (dataEntrega, tipo, idAbordagem, documento, tituloDocumento, statusAtendimentoEnvio);
 	commit;
 end;$$
 
@@ -323,15 +336,20 @@ create or replace procedure UpdateDocumentosCronogramaPalestra (
    
     idAbordagem INTEGER,
     dataEntrega timestamp,
-    tipo VARCHAR(50),
+    documento bytea,
+    tituloDocumento varchar(20),
+    tipo varchar(5),
+    statusAtendimentoEnvio varchar (20)
 )
 language plpgsql
 as $$
 begin
 	UPDATE DocumentosCronogramaPalestra
-	SET dataEntrega = dataEntrega AND 
+	SET 
+        statusAtendimentoEnvio = statusAtendimentoEnvio AND
+        documento = documento AND 
         tipo = tipo
 
-    	WHERE numeroDeSala = numeroDeSala;
+    	WHERE idAbordagem = idAbordagem AND dataEntrega = dataEntrega AND tituloDocumento = tituloDocumento ;
 	commit;
 end;$$
