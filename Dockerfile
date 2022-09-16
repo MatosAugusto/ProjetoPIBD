@@ -5,7 +5,7 @@ RUN apt-get update
 RUN apt-get install -y nix
 RUN nix-channel --add https://nixos.org/channels/nixpkgs-unstable \
     && nix-channel --update
-COPY ./shell.nix /tmp/shell.nix
+COPY ./shell.nix ./replit.nix /tmp/
 RUN nix-shell /tmp/shell.nix
 RUN useradd -m runner \
     && mkdir /home/runner/ProjetoPIBD \
