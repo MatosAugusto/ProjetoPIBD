@@ -1,2 +1,3 @@
-SELECT "Hello world!";
-SELECT "teste";
+\i tabelasRevisadas.sql
+\i proceduresComiteEditais.sql
+\i proceduresComiteConvites.sql
