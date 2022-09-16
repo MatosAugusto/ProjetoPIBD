@@ -1,3 +1,4 @@
-\i tabelasRevisadas.sql
-\i proceduresComiteEditais.sql
-\i proceduresComiteConvites.sql
+DROP DATABASE teste;
+CREATE DATABASE teste;
+\c teste
+\i tabelasgeraisFinal.sql

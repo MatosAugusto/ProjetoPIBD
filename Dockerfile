@@ -12,4 +12,4 @@ RUN useradd -m runner \
     && chown runner /home/runner/ProjetoPIBD
 WORKDIR /home/runner/ProjetoPIBD
 ENTRYPOINT nix-daemon >/dev/null & \
-    (sleep 3 && runuser -u runner nix-shell -- --command "bash start.sh")
+    (sleep 3 && runuser -u runner nix-shell -- --command "bash start.sh && bash")
