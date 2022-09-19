@@ -1,5 +1,7 @@
 { pkgs }: {
     deps = [
-        pkgs.sqlite
+        pkgs.less
+        pkgs.postgresql
+        pkgs.m4
     ];
 }
