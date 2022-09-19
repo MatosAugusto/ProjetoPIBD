@@ -3,12 +3,34 @@
 - Consiste na implementação de um sistema de controle de eventos científicos
 
 ## Instalação 
+A execução pode ser feita online por Replit ou pelo Docker. O ambiente configura
+o banco de dados via `start.sh` e abre um shell.
+- Rode `bash start.sh` para reconstruir o banco de dados a partir dos scripts.
+- Rode `bash repl.sh` para operar o banco de dados interativamente.
 
-### Instalação do postgres
+### Replit
+O projeto suporta execução online por [Replit](https://replit.com/):
+1. Crie uma conta caso necessário
+2. Crie um novo Repl
+3. Importe do github, usando o link do repositório
+4. Execute com o botão de executar
 
-```bash
+### Docker
+O projeto também suporta execução por um container do Docker:
+1. Instale o docker no seu sistema
+2. Se necessário, levante o daemon do docker:
+   - (Linux) `sudo systemctl start docker.service`
+3. (Linux) Execute o container com `bash run-docker.sh`, usando `sudo` caso
+   permissões sejam necessárias
 
-```
+## Incluindo código fonte
+O script de inicialização chama o arquivo `sql/index.sql`. Um macro é definido
+`include(<caminho>)`, que expande para o conteúdo do arquivo referenciado
+(recursivamente, relativamente ao arquivo que incluiu, e na mesma ordem). Para
+incluir um novo script, coloque dentro da pasta `sql` e altere algum arquivo com
+`include(<caminho do seu script>)` para incluir ele na saída final.
+
+Veja os arquivos `index.sql` dentro da pasta `sql` para exemplos de uso prático.
 
 ## Alunos realizando o projeto
 
