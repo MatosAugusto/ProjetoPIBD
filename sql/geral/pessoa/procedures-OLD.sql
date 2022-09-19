@@ -6,7 +6,6 @@ create or replace function InsertPessoa(
     sobrenomeNovo varchar(100),
     cepNovo varchar(10),
     numeroNovo integer,
-    complementoNovo varchar(25),
     filiacaoNovo varchar(50)
 )
 returns integer as $$
@@ -14,8 +13,8 @@ declare
 	idRec integer := 0;
 	cursorId refcursor;
 begin
-    Open cursorId for INSERT INTO Pessoa(primeiroNome, sobrenome, cep, numero, complemento)    
-	VALUES (primeiroNomeNovo, sobrenomeNovo, cepNovo, numeroNovo, complementoNovo) RETURNING idPessoa;
+    Open cursorId for INSERT INTO Pessoa(primeiroNome, sobrenome, cep, numero)    
+	VALUES (primeiroNomeNovo, sobrenomeNovo, cepNovo, numeroNovo) RETURNING idPessoa;
     fetch cursorId into idRec;
     INSERT INTO PessoaFiliacao(idPessoa, filiacao) 
     VALUES (idRec, filiacaoNovo);
@@ -128,7 +127,7 @@ declare
 	cursorId refcursor;
 begin
     call InsertEndereco(cepN, numeroN, paisN, estadoN, cidadeN, bairroN, logradouroN, complementoN);
-    Open cursorId for select InsertPessoa(primeiroNomeN, sobrenomeN, cepN, numeroN, complementoN, filiacaoN);
+    Open cursorId for select InsertPessoa(primeiroNomeN, sobrenomeN, cepN, numeroN, filiacaoN);
     fetch cursorId into idRec;
 	select idRec into idRecuperado;
 	raise notice 'IdRecuperado: %', idRecuperado;
@@ -287,5 +286,3 @@ begin
 end $$;
 
 ---------------------Para inserir estrangeiros-----------------------
-
-

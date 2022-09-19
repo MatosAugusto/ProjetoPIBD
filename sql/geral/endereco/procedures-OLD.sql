@@ -70,13 +70,8 @@ begin
 	Cep.complemento = complementoNovo;
 	fetch cursorEndUm into registroUm;
 	close cursorEndUm;
-	if not found registroUm then
-	    if complementoNovo is null then
-    		INSERT INTO Cep(bairro, cep, numero, logradouro)
-    	    VALUES (bairroNovo, cepNovo, numeroNovo, logradouroNovo);
-    	else
-			INSERT INTO Cep(bairro, cep, numero, logradouro, complemento)
-    		VALUES (bairroNovo, cepNovo, numeroNovo, logradouroNovo, complementoNovo);
-    	end if;
+	if not found registroUm then 
+    	INSERT INTO Cep(bairro, cep, numero, logradouro, complemento)
+    	VALUES (bairroNovo, cepNovo, numeroNovo, logradouroNovo, complementoNovo);
 	end if; 
 end $$;
