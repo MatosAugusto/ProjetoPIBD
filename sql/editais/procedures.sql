@@ -14,7 +14,7 @@ begin
     INSERT INTO IdiomasAceitos(idioma, idEdital)
     VALUES (idioma, idEdital);
     commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela IdiomasAceitos
 /*
@@ -45,7 +45,7 @@ begin
     INSERT INTO EixosApresentacao(idEixo, idEdital, nomeEixo)
     VALUES (idEixo, idEdital, nomeEixo);
     commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela EixosApresentacao 
 CREATE or REPLACE PROCEDURE UpdateEixosApresentacao (
@@ -61,7 +61,7 @@ begin
         nomeEixo = nomeEixo
         WHERE idEixo = idEixo;
     commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela SubEixosApresentacao
 CREATE or REPLACE PROCEDURE InsertSubEixosApresentacao (
@@ -74,7 +74,7 @@ begin
     INSERT INTO EixosApresentacao(idEixo, nomeSubEixo)
     VALUES (idEixo, nomeSubEixo);
     commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela SubEixosApresentacao 
 CREATE or REPLACE PROCEDURE UpdateSubEixosApresentacao (
@@ -88,7 +88,7 @@ begin
     SET nomeSubEixo = nomeSubEixo
         WHERE idEixo = idEixo;
     commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela AreasApresentacao
 create or replace procedure InsertAreasApresentacao(
@@ -102,7 +102,7 @@ begin
 	INSERT INTO AreasApresentacao(idArea, idEdital, nomeArea)
 	VALUES (idArea, idEdital, nomeArea);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela AreasApresentacao
 create or replace procedure UpdateAreasApresentacao(
@@ -117,12 +117,12 @@ begin
 	SET idEdital = idEdital AND nomeArea = nomeArea
     	WHERE idArea = idArea;
 	commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela SubAreasApresentacao
 create or replace procedure InsertSubAreasApresentacao(
     idArea INTEGER,
-    nomeSubArea VARCHAR(20),
+    nomeSubArea VARCHAR(20)
 )
 language plpgsql
 as $$
@@ -130,12 +130,12 @@ begin
 	INSERT INTO SubAreasApresentacao(idArea, nomeSubArea)
 	VALUES (idArea, nomeSubArea);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela SubAreasApresentacao
 create or replace procedure UpdateSubAreasApresentacao(
     idArea INTEGER,
-    nomeSubArea VARCHAR(20),
+    nomeSubArea VARCHAR(20)
 )
 language plpgsql
 as $$
@@ -144,7 +144,7 @@ begin
 	SET nomeSubArea = nomeSubArea
    	WHERE idArea = idArea;
 	commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela Regras
 create or replace procedure InsertRegras(
@@ -158,7 +158,7 @@ begin
 	INSERT INTO Regras(idEdital, descricao, modelo)
 	VALUES (idEdital, descricao, modelo);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela Regras
 create or replace procedure UpdateRegras(
@@ -173,7 +173,7 @@ begin
 	SET descricao = descricao AND modelo = modelo
     	WHERE idEdital = idEdital;
 	commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela CronogramaEdital
 create or replace procedure InsertCronogramaEdital(
@@ -188,7 +188,7 @@ begin
 	INSERT INTO CronogramaEdital(idEdital, dataPublicacaoOriginal, intervaloRealizacao, dataDivulgacaoListaAprovados)
 	VALUES (idEdital, dataPublicacaoOriginal, intervaloRealizacao, dataDivulgacaoListaAprovados);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela CronogramaEdital
 create or replace procedure UpdateCronogramaEdital(
@@ -204,7 +204,7 @@ begin
 	SET dataPublicacaoOriginal = dataPublicacaoOriginal AND intervaloRealizacao = intervaloRealizacao AND dataDivulgacaoListaAprovados = dataDivulgacaoListaAprovados
         WHERE idCronogramaEdital = idCronogramaEdital;
 	commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela PeriodoInscricoesEdital
 create or replace procedure InsertPeriodoInscricoesEdital(
@@ -218,7 +218,7 @@ begin
 	INSERT INTO PeriodoInscricoesEdital(idCronogramaEdital, inicioPeriodoI, fimPeriodoI)
 	VALUES (idCronogramaEdital, inicioPeriodoI, fimPeriodoI);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela PeriodoInscricoesEdital
 create or replace procedure UpdatePeriodoInscricoesEdital(
@@ -233,7 +233,7 @@ begin
 	SET inicioPeriodoI = inicioPeriodoI AND fimPeriodoI = fimPeriodoI
         WHERE idCronogramaEdital = idCronogramaEdital;
 	commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela PeriodoSubmissoesEdital
 create or replace procedure InsertPeriodoSubmissoesEdital(
@@ -247,7 +247,7 @@ begin
 	INSERT INTO PeriodoSubmissoesEdital(idCronogramaEdital, inicioPeriodoS, fimPeriodoS)
 	VALUES (idCronogramaEdital, inicioPeriodoS, fimPeriodoS);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela PeriodoSubmissoesEdital
 create or replace procedure UpdatePeriodoSubmissoesEdital(
@@ -262,7 +262,7 @@ begin
 	SET inicioPeriodoS = inicioPeriodoS AND fimPeriodoS = fimPeriodoS
     	WHERE idCronogramaEdital = idCronogramaEdital;
 	commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela Trabalho
 create or replace procedure InsertTrabalho (
@@ -286,7 +286,7 @@ begin
 	INSERT INTO Trabalho(idEdital, titulo, palavraChave1, palavraChave2, palavraChave3, palavraChave4, palavraChave5, idiomaPrincipal, idioma2, idioma3, descricao, status, tipoTrabalho)
 	VALUES (idEdital, titulo, palavraChave1, palavraChave2, palavraChave3, palavraChave4, palavraChave5, idiomaPrincipal, idioma2, idioma3, descricao, status, tipoTrabalho);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela Trabalho
 create or replace procedure UpdateTrabalho (
@@ -325,7 +325,7 @@ begin
         tipoTrabalho = tipoTrabalho
     	WHERE idTrabalho = idTrabalho;
 	commit;
-end;$$
+end;$$;
 
 -- Inserção na tabela Artigo
 create or replace procedure InsertArtigo (
@@ -337,7 +337,7 @@ begin
 	INSERT INTO Artigo(tipoArtigo)
 	VALUES (tipoArtigo);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela Artigo
 create or replace procedure UpdateArtigo (
@@ -351,8 +351,7 @@ begin
 	SET tipoArtigo = tipoArtigo
     	WHERE idTrabalho = idTrabalho;
 	commit;
-end;$$
-
+end;$$;
 
 -- Inserção na tabela VersaoAbstract
 create or replace procedure InsertVersaoAbstract (
@@ -367,7 +366,7 @@ begin
 	INSERT INTO VersaoAbstract(idTrabalho, idioma, texto, ehPrimario)
 	VALUES (idTrabalho, idioma, texto, ehPrimario);
 	commit;
-end;$$
+end;$$;
 
 -- Atualização da tabela VersaoAbstract
 create or replace procedure UpdateVersaoAbstract (
@@ -385,4 +384,4 @@ begin
         ehPrimario = ehPrimario
     	WHERE idTrabalho = idTrabalho;
 	commit;
-end;$$
+end;$$;

@@ -26,4 +26,4 @@ if [ ! -f $PGDATA/postmaster.pid ]; then
   pg_ctl -l $PGDATA/postgresql.log start
 fi
 
-psql -f main.sql postgresql://127.0.0.1/postgres
+m4 bundle.m4 sql/index.sql | psql --echo-all postgresql://127.0.0.1/postgres 
