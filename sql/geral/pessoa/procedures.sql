@@ -119,8 +119,8 @@ create or replace procedure InsertPessoaAtributos(
     prefixoN integer,
     numeroTelefoneN integer,
     loginN varchar(50),
-    dominioN varchar(50),
-	OUT idRecuperado integer
+    dominioN varchar(50)
+	-- OUT idRecuperado integer
 )
 language plpgsql as $$
 declare 
@@ -130,8 +130,8 @@ begin
     call InsertEndereco(cepN, numeroN, paisN, estadoN, cidadeN, bairroN, logradouroN, complementoN);
     Open cursorId for select InsertPessoa(primeiroNomeN, sobrenomeN, cepN, numeroN, complementoN, filiacaoN);
     fetch cursorId into idRec;
-	select idRec into idRecuperado;
-	raise notice 'IdRecuperado: %', idRecuperado;
+	-- select idRec into idRecuperado;
+	-- raise notice 'IdRecuperado: %', idRecuperado;
 	close cursorId;
 	call InsertTelefonePessoa(idRec, ddiN, dddN, prefixoN, numeroTelefoneN);
     call InsertEmailPessoa(idRec, loginN, dominioN);
@@ -182,8 +182,8 @@ create or replace procedure InsertBrasileiroAtributos(
     cidadeN varchar(35),
     bairroN varchar(35),  
     logradouroN varchar(25),
-    complementoN varchar(25),
-    OUT idPessoaRec integer
+    complementoN varchar(25)
+    --OUT idPessoaRec integer
 )
 language plpgsql as $$
 declare 
@@ -197,11 +197,11 @@ begin
 		call InsertPessoaAtributos(primeiroNomeN, sobrenomeN, cepN, numeroN, paisN, estadoN, cidadeN, bairroN, logradouroN, complementoN, filiacaoN, ddiN, dddN, prefixoN, numeroTelefoneN, loginN, dominioN, idRec);  
     	call InsertBrasileiro(idRec, cpfPessoaN); 
     	--raise notice 'idRec:%', idRec;
-		select idRec into idPessoaRec;
+		-- select idRec into idPessoaRec;
 		--raise notice 'idPessoaRec:%', idPessoaRec;
 	else
 		select idPessoa from Brasileiro where Brasileiro.cpf = cpfPessoaN into idRec;
-		select idRec into idPessoaRec;
+		-- select idRec into idPessoaRec;
 		raise notice 'idRec:%', idRec;
 		raise notice 'CPF ja cadastrado';
 	end if;
@@ -259,8 +259,8 @@ create or replace procedure InsertEstrangeiroAtributos(
     cidadeN varchar(35),
     bairroN varchar(35),  
     logradouroN varchar(25),
-    complementoN varchar(25),
-	OUT idPessoaRec integer
+    complementoN varchar(25)
+	--OUT idPessoaRec integer
 )
 language plpgsql
 as $$
@@ -276,11 +276,11 @@ begin
     	call InsertPessoaAtributos(primeiroNomeN, sobrenomeN, cepN, numeroN, paisN, estadoN, cidadeN, bairroN, logradouroN, complementoN, filiacaoN, ddiN, dddN, prefixoN, numeroTelefoneN, loginN, dominioN,  idRec);
     	call InsertEstrangeiro(idRec, nroPassaporteN);
     	call InsertEstrangeiroNroPassaporte(nroPassaporteN, dataEmissaoN, dataExpiracaoN, govEmissorN); 
-		select idRec into idPessoaRec;
+		-- select idRec into idPessoaRec;
     	--commit;
 	else
 		select idPessoa from Estrangeiro where Estrangeiro.nroPassaporte = nroPassaporteN into idRec;
-		select idRec into idPessoaRec;
+		--select idRec into idPessoaRec;
 		raise notice 'Numero de Passaporte ja cadastrado';
 		raise notice 'idPessoaRec: %', idPessoaRec;
 	end if;
