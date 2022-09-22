@@ -1,1 +1,1 @@
-include(views.sql)
+include(view.sql)
