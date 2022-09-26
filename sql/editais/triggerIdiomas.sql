@@ -19,8 +19,8 @@ end;
 $$
 language plpgsql;
 
-create or replace trigger t_after_ins_row_trabalho
-after insert or update
+create or replace trigger t_before_ins_row_idiomasDiferentes_trabalho
+before insert or update
 on Trabalho
 for each row execute function BeforeInsertTrabalho();
 
