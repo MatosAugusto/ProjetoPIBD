@@ -81,3 +81,39 @@ values ('I', 'E', 'E');*/
 /*insert into Trabalho
 (idiomaPrincipal, idioma2, idioma3)
 values ('P', 'I', 'E');*/
+
+-- função auxiliar para verificar se as datas do edital estão coerentes.
+create or replace function verificaDataEdital() 
+returns trigger as $$
+begin
+    if new.dataUltimaEdicao < dataPublicacaoOriginal then
+        raise 'A data inserida é inválida!';
+        return NEW;
+    end if;
+    return NEW;      
+end; 
+$$
+language plpgsql;
+
+create or replace trigger tr_insert_publicacao_edital 
+before insert or update
+on Edital
+for each row execute function verificaDataEdital();
+
+-- função auxiliar para verificar se as datas do cronograma estão coerentes.
+create or replace function verificaDataCronograma() 
+returns trigger as $$
+begin
+    if new.dataDivulgacaoListaAprovados < dataPublicacaoOriginal then
+        raise 'A data inserida é inválida!';
+        return NEW;
+    end if;
+    return NEW;      
+end; 
+$$
+language plpgsql;
+
+create or replace trigger tr_insert_cronograma
+before insert or update
+on CronogramaEdital
+for each row execute function verificaDataCronograma();
