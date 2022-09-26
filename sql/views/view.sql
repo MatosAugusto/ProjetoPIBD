@@ -3,7 +3,7 @@
 -- R39. Listar artigos com status + avaliadores + avaliações + (artigos aceitos + autores + título) + (artigos rejeitados + autores + títulos)
 -- Essa aqui eu não tenho nem ideia, eu fui tentando fazer aos pouquinhos, mas não saí do lugar
 CREATE OR REPLACE VIEW View_Artigos AS
-SELECT status, idAutor
+SELECT a.tipoArtigo, t.status, p.primeiroNome, p.sobrenome, 
 FROM Trabalho T, Artigo A, SubmeteTrabalho S
 WHERE T.idTrabalho = A.idTrabalho AND S.idAutor = idAutor;
 

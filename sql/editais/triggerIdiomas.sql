@@ -24,19 +24,11 @@ before insert or update
 on Trabalho
 for each row execute function BeforeInsertTrabalho();
 
---Envia Mensagem de erro adequada caso seja inserido um idioma não aceito pelo Edital
+--Envia Mensagem de erro adequada caso seja inserido um idioma no trabalho não aceito pelo Edital
 create or replace function BeforeInsertIdiomaOnTrabalho()
 returns trigger as $$
 begin
-    if new.idiomaPrincipal != 'P' then
-        raise 'Idioma não aceito pelo Edital, por favor selecione um dos idiomas aceitos: P(Português), I(Inglês) ou E(Espanhol).';
-        return NEW;
-    end if;
-    if new.idiomaPrincipal = 'I' then
-        raise 'Idioma não aceito pelo Edital, por favor selecione um dos idiomas aceitos: P(Português), I(Inglês) ou E(Espanhol).';
-        return NEW;
-    end if;
-    if new.idioma2 = 'E' then
+    if (new.idiomaPrincipal and new.idioma1 and new.idioma2)  != 'P' or 'I' or 'E' then
         raise 'Idioma não aceito pelo Edital, por favor selecione um dos idiomas aceitos: P(Português), I(Inglês) ou E(Espanhol).';
         return NEW;
     end if;
@@ -117,3 +109,38 @@ create or replace trigger tr_insert_cronograma
 before insert or update
 on CronogramaEdital
 for each row execute function verificaDataCronograma();
+
+-- Verifica se as datas do fim da inscrição/submissão são posteriores às datas de início de inscrição/submissão
+create or replace function verificaDataInscricao() 
+returns trigger as $$
+begin
+    if new.inicioPeriodoI > fimPeriodoI then
+        raise 'A data de início não pode ser posterior à data de fim das inscrições!';
+        return NEW;
+    end if;
+    return NEW;      
+end; 
+$$
+language plpgsql;
+
+create or replace trigger tr_dataInscricao 
+before insert or update
+on PeriodoInscricoesEdital
+for each row execute function verificaDataInscricao();
+
+create or replace function verificaDataSubmissao() 
+returns trigger as $$
+begin
+    if new.inicioPeriodoI > fimPeriodoI then
+        raise 'A data de início não pode ser posterior à data de fim das submissões!';
+        return NEW;
+    end if;
+    return NEW;      
+end; 
+$$
+language plpgsql;
+
+create or replace trigger tr_dataSubmissao 
+before insert or update
+on PeriodoSubmissoesEdital
+for each row execute function verificaDataSubmissao();

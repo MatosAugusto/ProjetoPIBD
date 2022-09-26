@@ -153,6 +153,7 @@ CREATE TABLE IF NOT EXISTS Trabalho (
     descricao VARCHAR(200),
     status VARCHAR(16),
     tipoTrabalho VARCHAR(32) NOT NULL,
+    areaTrabalho integer,
 
     CONSTRAINT idiomaPTrabalho_check CHECK(idiomaPrincipal IN('P', 'I', 'E')),
     CONSTRAINT idioma2Trabalho_check CHECK(idioma2 IN('P', 'I', 'E')),
@@ -166,7 +167,9 @@ CREATE TABLE IF NOT EXISTS Trabalho (
     CONSTRAINT trabalho_fk FOREIGN KEY(idEdital) 
         REFERENCES Edital(idEdital),
     CONSTRAINT tipoTrabalho_check CHECK (tipoTrabalho IN ('Oficina', 'Minicurso','Artigo')),
-    CONSTRAINT trabalho_unique UNIQUE(titulo) -- checar o overhead gerado, pois isso eh uma regra de negocio (uniques geram indices, isso pode ser util mas eh caro)
+    CONSTRAINT trabalho_unique UNIQUE(titulo), -- checar o overhead gerado, pois isso eh uma regra de negocio (uniques geram indices, isso pode ser util mas eh caro)
+    CONSTRAINT areaTrabalho_fk FOREIGN KEY (areaTrabalho)
+        REFERENCES AreasApresentacao(idArea)
     -- usar a tablea de idiomasAceitos
 	-- se usar ela será que precisa manter os checks aqui? 
 );

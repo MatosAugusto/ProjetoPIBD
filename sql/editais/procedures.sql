@@ -11,7 +11,7 @@ CREATE or REPLACE PROCEDURE InsertEdital(
     dataUltimaEdicao DATE,
     dataPublicacaoOriginal DATE
 )
-language plpgsqlas 
+language plpgsql
 as $$
 begin   
     INSERT INTO Edital(idEdital, sigla, url, dataUltimaEdicao, dataPublicacaoOriginal)
@@ -27,39 +27,41 @@ CREATE or REPLACE PROCEDURE UpdateEdital(
     dataUltimaEdicao DATE,
     dataPublicacaoOriginal DATE
 )
-language plpgsqlas 
+language plpgsql
 as $$
 begin   
     UPDATE Edital
-    SET sigla sigla AND  url = url AND dataUltimaEdicao = dataUltimaEdicao AND dataPublicacaoOriginal = dataPublicacaoOriginal
+    SET sigla = sigla AND  url = url AND dataUltimaEdicao = dataUltimaEdicao AND dataPublicacaoOriginal = dataPublicacaoOriginal
     WHERE idEdital = idEdital;
     commit;
 end;$$;
 
 -- Inserção na tabela IdiomasAceitos
 CREATE or REPLACE PROCEDURE InsertIdiomasAceitos (
-    idioma CHAR,
     idEdital INTEGER 
 )
 language plpgsql
 as $$
 begin
     INSERT INTO IdiomasAceitos(idioma, idEdital)
-    VALUES (idioma, idEdital);
+    VALUES ('P', idEdital);
+    VALUES ('I', idEdital);
+    VALUES ('E', idEdital);
     commit;
 end;$$;
 
 -- Atualização da tabela IdiomasAceitos
 CREATE or REPLACE PROCEDURE UpdateIdiomasAceitos (
     idioma CHAR,
+    idiomaNovo CHAR,
     idEdital INTEGER 
 )
 language plpgsql
 as $$
 begin
     UPDATE IdiomasAceitos
-    SET idioma = idioma AND 
-    idEdital = idEdital;
+    SET idioma = idiomaNovo
+    WHERE idEdital = idEdital AND idioma = idioma;
     commit;
 end;$$;
 
@@ -308,21 +310,20 @@ create or replace procedure InsertTrabalho (
     idioma3 CHAR,
     descricao VARCHAR(200),
     status VARCHAR(16),
-    tipoTrabalho VARCHAR(32)
+    tipoTrabalho VARCHAR(32),
+    areaTrabalho INTEGER
 )
 language plpgsql
 as $$
 begin
-	INSERT INTO Trabalho(idEdital, titulo, palavraChave1, palavraChave2, palavraChave3, palavraChave4, palavraChave5, idiomaPrincipal, idioma2, idioma3, descricao, status, tipoTrabalho)
-	VALUES (idEdital, titulo, palavraChave1, palavraChave2, palavraChave3, palavraChave4, palavraChave5, idiomaPrincipal, idioma2, idioma3, descricao, status, tipoTrabalho);
+	INSERT INTO Trabalho(idEdital, titulo, palavraChave1, palavraChave2, palavraChave3, palavraChave4, palavraChave5, idiomaPrincipal, idioma2, idioma3, descricao, status, tipoTrabalho, areaTrabalho)
+	VALUES (idEdital, titulo, palavraChave1, palavraChave2, palavraChave3, palavraChave4, palavraChave5, idiomaPrincipal, idioma2, idioma3, descricao, status, tipoTrabalho, areaTrabalho);
 	commit;
 end;$$;
 
 -- Atualização da tabela Trabalho
 create or replace procedure UpdateTrabalho (
-    -- idEdital SERIAL, -- deixei sem esse por enquanto pq fiquei em dúvida se precisaria atualizar o edital, mas talvez sim? caso tenham colocado errado?
-
-    -- idTrabalho SERIAL, -- usando o serial aqui deu erro na hora de rodar (em todos os procedures de update)
+    idEdital SERIAL, -- deixei sem esse por enquanto pq fiquei em dúvida se precisaria atualizar o edital, mas talvez sim? caso tenham colocado errado?
     idTrabalho INTEGER,
     titulo VARCHAR(64),
     palavraChave1 VARCHAR(16),
@@ -335,13 +336,15 @@ create or replace procedure UpdateTrabalho (
     idioma3 CHAR,
     descricao VARCHAR(200),
     status VARCHAR(16),
-    tipoTrabalho VARCHAR(32)
+    tipoTrabalho VARCHAR(32),
+    areaTrabalho INTEGER
 )
 language plpgsql
 as $$
 begin
 	UPDATE Trabalho
-	SET titulo = titulo AND 
+	SET idEdital = idEdital AND
+        titulo = titulo AND 
         palavraChave1 = palavraChave1 AND 
         palavraChave2 = palavraChave2 AND
         palavraChave3 = palavraChave3 AND
@@ -352,7 +355,8 @@ begin
         idioma3 = idioma3 AND
         descricao = descricao AND
         status = status AND
-        tipoTrabalho = tipoTrabalho
+        tipoTrabalho = tipoTrabalho AND
+        areaTrabalho = areaTrabalho
     	WHERE idTrabalho = idTrabalho;
 	commit;
 end;$$;
