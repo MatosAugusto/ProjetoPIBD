@@ -5,7 +5,7 @@
 
 -- Inserção na tabela Edital
 CREATE or REPLACE PROCEDURE InsertEdital(
-    idEdital SERIAL,
+    idEdital INTEGER,
     sigla VARCHAR(8),
     url VARCHAR(64),
     dataUltimaEdicao DATE,
@@ -21,7 +21,7 @@ end;$$;
 
 --Atualização na tabela Edital
 CREATE or REPLACE PROCEDURE UpdateEdital(
-    idEdital SERIAL,
+    idEdital INTEGER,
     sigla VARCHAR(8),
     url VARCHAR(64),
     dataUltimaEdicao DATE,
