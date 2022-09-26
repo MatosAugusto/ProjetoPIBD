@@ -3,6 +3,39 @@
 -- Nos inserts precisa inserir também os que são do tipo SERIAL? (Ex: EixosApresentacao)
 -- Ainda tem que ver se precisa atualizar o idEdital em alguns casos (tipo no trabalho)
 
+-- Inserção na tabela Edital
+CREATE or REPLACE PROCEDURE InsertEdital(
+    idEdital SERIAL,
+    sigla VARCHAR(8),
+    url VARCHAR(64),
+    dataUltimaEdicao DATE,
+    dataPublicacaoOriginal DATE
+)
+language plpgsqlas 
+as $$
+begin   
+    INSERT INTO Edital(idEdital, sigla, url, dataUltimaEdicao, dataPublicacaoOriginal)
+    VALUES(idEdital, sigla, url, dataUltimaEdicao, dataPublicacaoOriginal);
+    commit;
+end;$$;
+
+--Atualização na tabela Edital
+CREATE or REPLACE PROCEDURE UpdateEdital(
+    idEdital SERIAL,
+    sigla VARCHAR(8),
+    url VARCHAR(64),
+    dataUltimaEdicao DATE,
+    dataPublicacaoOriginal DATE
+)
+language plpgsqlas 
+as $$
+begin   
+    UPDATE Edital
+    SET sigla sigla AND  url = url AND dataUltimaEdicao = dataUltimaEdicao AND dataPublicacaoOriginal = dataPublicacaoOriginal
+    WHERE idEdital = idEdital;
+    commit;
+end;$$;
+
 -- Inserção na tabela IdiomasAceitos
 CREATE or REPLACE PROCEDURE InsertIdiomasAceitos (
     idioma CHAR,
@@ -17,8 +50,6 @@ begin
 end;$$;
 
 -- Atualização da tabela IdiomasAceitos
-/*
--- Comentei pois não sei se faz sentido atualizar um idioma
 CREATE or REPLACE PROCEDURE UpdateIdiomasAceitos (
     idioma CHAR,
     idEdital INTEGER 
@@ -30,8 +61,7 @@ begin
     SET idioma = idioma AND 
     idEdital = idEdital;
     commit;
-end;$$
-*/
+end;$$;
 
 -- Inserção na tabela EixosApresentacao 
 CREATE or REPLACE PROCEDURE InsertEixosApresentacao (

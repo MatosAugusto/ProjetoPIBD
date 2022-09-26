@@ -24,6 +24,32 @@ after insert or update
 on Trabalho
 for each row execute function BeforeInsertTrabalho();
 
+--Envia Mensagem de erro adequada caso seja inserido um idioma não aceito pelo Edital
+create or replace function BeforeInsertIdiomaOnTrabalho()
+returns trigger as $$
+begin
+    if new.idiomaPrincipal != 'P' then
+        raise 'Idioma não aceito pelo Edital, por favor selecione um dos idiomas aceitos: P(Português), I(Inglês) ou E(Espanhol).';
+        return NEW;
+    end if;
+    if new.idiomaPrincipal = 'I' then
+        raise 'Idioma não aceito pelo Edital, por favor selecione um dos idiomas aceitos: P(Português), I(Inglês) ou E(Espanhol).';
+        return NEW;
+    end if;
+    if new.idioma2 = 'E' then
+        raise 'Idioma não aceito pelo Edital, por favor selecione um dos idiomas aceitos: P(Português), I(Inglês) ou E(Espanhol).';
+        return NEW;
+    end if;
+    return NEW;
+end; 
+$$
+language plpgsql;
+
+create or replace trigger t_before_ins_row_trabalho
+before insert or update
+on Trabalho
+for each row execute function BeforeInsertIdiomaOnTrabalho();
+
 /*drop table Trabalho;
 CREATE TABLE IF NOT EXISTS Trabalho (
     idTrabalho SERIAL NOT NULL,
