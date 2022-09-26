@@ -131,7 +131,7 @@ for each row execute function verificaDataInscricao();
 create or replace function verificaDataSubmissao() 
 returns trigger as $$
 begin
-    if new.inicioPeriodoI > fimPeriodoI then
+    if new.inicioPeriodoS > fimPeriodoS then
         raise 'A data de início não pode ser posterior à data de fim das submissões!';
         return NEW;
     end if;
