@@ -49,10 +49,9 @@ public class EventoDAO extends GenericDAO{
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
 
-            statement.setLong(1, cpf);
+            statement.setString(1, sigla);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String sigla = resultSet.getString("sigla");
                 String nomeExtenso = resultSet.getString("nomeExtenso");
                 String pais = resultSet.getString("pais");
                 String estado = resultSet.getString("estado");
