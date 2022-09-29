@@ -90,4 +90,26 @@ public class EditalDAO extends GenericDAO{
         }
         return listaEditais;
     }
+
+    public void update(Edital edital){
+
+        String sql = "call UpdateEdital(?, ?, ?, ?, ?)";
+
+        try {
+			
+            Connection conn = this.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setLong(0, edital.getId());
+            statement.setString(1, edital.getSigla());
+            statement.setString(2, edital.getUrl());
+            statement.setDate(3, edital.getDataUltimaEdicao());
+            statement.setDate(4, edital.getDataPublicacaoOriginal());
+            statement.executeUpdate();
+
+            statement.close();
+            conn.close();
+        } catch(SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
