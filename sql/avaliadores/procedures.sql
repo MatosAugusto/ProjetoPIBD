@@ -22,8 +22,6 @@ end $$;
 -- Avaliador
 create or replace procedure InsertAvaliador(
     idAvaliadorN integer,
-    dataEnvioConvN timestamp,
-    dataRespConvN date,
 	prazoRespConvN interval
 )
 language plpgsql
@@ -32,7 +30,7 @@ declare
 	dataConvite timestamp;
 begin
 	call InsertPrazoRespostaAvaliador(dataConvite, prazoRespConvN);
-    INSERT INTO Avaliador(idAvaliador, dataEnvioConv, dataRespConv) VALUES (idAvaliadorN, dataConvite, dataRespConvN);
+    INSERT INTO Avaliador(idAvaliador, dataEnvioConv, dataRespConv) VALUES (idAvaliadorN, dataConvite, current_date);
 	--raise notice 'DataConvite: %', dataConvite;
 end $$;
 

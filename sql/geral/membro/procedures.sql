@@ -19,7 +19,10 @@ create or replace procedure InsertMembroOrganizacaoBrasileiro(
     cidadeN varchar(35),
     bairroN varchar(35),  
     logradouroN varchar(25),
-    complementoN varchar(25)
+    complementoN varchar(25),
+    idComiteN integer,
+    ehResponsavelN char(3),
+    ehCorresponsavelN char(3)
 )
 language plpgsql
 as $$
@@ -38,6 +41,7 @@ begin
     if not found membroEncont then
         INSERT INTO MembroOrganizacao(idPessoa)
         VALUES (idRec);
+        call InsertCompostoPor(idRec, idComiteN, ehResponsavelN, ehCorresponsavelN);
     else
         raise notice 'Membro ja cadastrado.';
     end if;
@@ -65,7 +69,10 @@ create or replace procedure InsertMembroOrganizacaoEstrangeiro(
     cidadeN varchar(35),
     bairroN varchar(35),  
     logradouroN varchar(25),
-    complementoN varchar(25)
+    complementoN varchar(25),
+    idComiteN integer,
+    ehResponsavelN char(3),
+    ehCorresponsavelN char(3)
 )
 language plpgsql as $$
 declare
@@ -81,6 +88,7 @@ begin
     if not found membroEncont then
         INSERT INTO MembroOrganizacao(idPessoa)
         VALUES (idRec);
+        call InsertCompostoPor(idRec, idComiteN, ehResponsavelN, ehCorresponsavelN);
     else
         raise notice 'Membro ja cadastrado.';
     end if;

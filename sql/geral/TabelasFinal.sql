@@ -343,6 +343,8 @@ CREATE TABLE IF NOT EXISTS Palestras (
 
 
 -- Criação da tabela CronogramaPalestra
+-- 1:1 com abordagem
+-- 1:1 com palestra (é isso?)
 CREATE TABLE IF NOT EXISTS CronogramaPalestra (
     idAbordagem INTEGER,
     tipoEvento varchar(50),
@@ -734,6 +736,7 @@ CREATE TABLE IF NOT EXISTS PrazoAvaliacao(
 );
 
 -- Criação da tabela Avaliacao
+-- Uma avaliacao tem varios criterios
 CREATE TABLE IF NOT EXISTS Avaliacao(
     idAvalia INTEGER NOT NULL,
     idCriterioAvaliado INTEGER NOT NULL,
@@ -768,6 +771,7 @@ CREATE TABLE IF NOT EXISTS OrdemAutoria(
     
 );
 
+-- Um Autor submete varios trabalhos
 -- Criação da Tabela SubmeteTrabalho
 CREATE TABLE IF NOT EXISTS SubmeteTrabalho(
     idAutor INTEGER NOT NULL,
