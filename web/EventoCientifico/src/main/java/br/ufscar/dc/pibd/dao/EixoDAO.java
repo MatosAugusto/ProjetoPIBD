@@ -8,17 +8,19 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufscar.dc.pibd.domain.IdiomasAceitos;
+import br.ufscar.dc.pibd.domain.Eixo;
 
-public class IdiomasAceitosDAO extends GenericDAO {
-    public void insert(IdiomasAceitos idioma){
-        String sql = "call InsertIdiomasAceitos(?)";
+public class EixoDAO extends GenericDAO{
+    public void insert(Eixo eixo){
+        String sql = "call InsertEixosApresentacao(?, ?, ?)";
 
         try {
 			
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setLong(0, idioma.getIdEdital());
+            statement.setLong(0, eixo.getIdEixo());
+            statement.setLong(1, eixo.getIdEdital());
+            statement.setString(2, eixo.getNomeEixo());
             statement.executeUpdate();
 
             statement.close();
@@ -27,20 +29,21 @@ public class IdiomasAceitosDAO extends GenericDAO {
             throw new RuntimeException(e);
         }
     }
-    public IdiomasAceitos get(Long idEdital){
-        IdiomasAceitos idioma = null;
+    public Eixo get(Long idEixo){
+        Eixo eixo = null;
 
-        String sql = "SELECT * From IdiomasAceitos WHERE idEdital=?";
+        String sql = "SELECT * From EixosApresentacao WHERE idEixo=?";
         try {
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
 
-            statement.setLong(1, idEdital);
+            statement.setLong(1, idEixo);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
-                String nomeIdioma = resultSet.getString("idioma");
+                Long idEdital = resultSet.getLong("idEdital");
+                String nomeEixo = resultSet.getString("nomeEixo");
 
-                idioma = new IdiomasAceitos(nomeIdioma,idEdital);
+                eixo = new Eixo(idEixo, idEdital, nomeEixo);
             }
 
             resultSet.close();
@@ -49,22 +52,23 @@ public class IdiomasAceitosDAO extends GenericDAO {
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return idioma;
+        return eixo;
     }
-    public List<IdiomasAceitos> getAll(){
-        List<IdiomasAceitos> listaIdiomas = new ArrayList<>();
-        String sql = "SELECT * From IdiomasAceitos";
+    public List<Eixo> getAll(){
+        List<Eixo> listaEixos = new ArrayList<>();
+        String sql = "SELECT * From EixosApresentacao";
         try {
             Connection conn = this.getConnection();
             Statement statement = conn.createStatement();
 
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
+                Long idEixo = resultSet.getLong("idEixo");
                 Long idEdital = resultSet.getLong("idEdital");
-                String nomeIdioma = resultSet.getString("idioma");
+                String nomeEixo = resultSet.getString("nomeEixo");
 
-                IdiomasAceitos idioma = new IdiomasAceitos(nomeIdioma, idEdital);
-                listaIdiomas.add(idioma);
+                Eixo eixo = new Eixo(idEixo, idEdital, nomeEixo);
+                listaEixos.add(eixo);
             }
 
             resultSet.close();
@@ -73,18 +77,18 @@ public class IdiomasAceitosDAO extends GenericDAO {
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return listaIdiomas;
+        return listaEixos;
     }
-    public void update(IdiomasAceitos idioma, String novoIdioma){
-        String sql = "call UpdateIdiomasAceitos(?, ?, ?)";
+    public void update(Eixo eixo){
+        String sql = "call UpdateEixosApresentacao(?, ?, ?)";
 
         try {
 			
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setString(0, idioma.getIdioma());
-            statement.setString(1, novoIdioma);
-            statement.setLong(2, idioma.getIdEdital());
+            statement.setLong(0, eixo.getIdEixo());
+            statement.setLong(1, eixo.getIdEdital());
+            statement.setString(2, eixo.getNomeEixo());
             statement.executeUpdate();
 
             statement.close();
