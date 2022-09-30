@@ -72,13 +72,13 @@ public class CronogramaEditalDAO extends GenericDAO{
 
             ResultSet resultSet = statement.executeQuery(sql);
             while (resultSet.next()) {
-                Long idCronogramEdital = resultSet.getLong("idCronogramEdital");
+                Long idCronogramaEdital = resultSet.getLong("idCronogramaEdital");
                 Long idEdital = resultSet.getLong("idEdital");
                 String intervaloRealizacao = resultSet.getString("intervaloRealizacao");
                 Date dataDivulgacaoListaAprovados = resultSet.getDate("dataDivulgacaoListaAprovados");
                 Date dataPublicacaoOriginal = resultSet.getDate("dataPublicacaoOriginal");
 
-                CronogramaEdital cronogramaEdital = new CronogramaEdital(idCronogramEdital, idEdital, dataPublicacaoOriginal, intervaloRealizacao, dataDivulgacaoListaAprovados);
+                CronogramaEdital cronogramaEdital = new CronogramaEdital(idCronogramaEdital, idEdital, dataPublicacaoOriginal, intervaloRealizacao, dataDivulgacaoListaAprovados);
                 listaCronogramaEdital.add(cronogramaEdital);
             }
 
