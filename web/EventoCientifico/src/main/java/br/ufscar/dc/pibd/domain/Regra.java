@@ -3,9 +3,9 @@ package br.ufscar.dc.pibd.domain;
 public class Regra {
     public Long idEdital;
     public String descricao;
-    public Byte modelo;
+    public byte[] modelo;
 
-    public Regra(Long idEdital, String descricao, Byte modelo){
+    public Regra(Long idEdital, String descricao, byte[] modelo){
         this.idEdital = idEdital;
         this.descricao = descricao;
         this.modelo = modelo;
@@ -27,11 +27,11 @@ public class Regra {
         this.descricao = descricao;
     }
 
-    public Byte getModelo(){
+    public byte[] getModelo(){
         return this.modelo;
     }
 
-    public void setModelo(Byte modelo){
+    public void setModelo(byte[] modelo){
         this.modelo = modelo;
     }
 }

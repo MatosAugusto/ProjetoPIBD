@@ -1,5 +1,6 @@
 package br.ufscar.dc.pibd.domain;
 
+import java.sql.Time;
 import java.util.Date;
 
 import org.postgresql.util.PGTime;
@@ -11,7 +12,7 @@ public class CronogramaPalestra {
     private String tipoEvento;
 	// tem esses tipos aqui em java?
 	private Date dataDaPalestra;
-	private PGTime horaDaPalestra;
+	private Time horaDaPalestra;
 	private String duracaoPrevista;
 	private int numeroDeSala;
 	private String predio;
@@ -21,7 +22,7 @@ public class CronogramaPalestra {
 		this.idPalestra = idPalestra;
     }
 
-    public CronogramaPalestra(String tipoEvento, Date dataDaPalestra, PGTime horaDaPalestra, String duracaoPrevista, int numeroDeSala, String predio) {
+    public CronogramaPalestra(String tipoEvento, Date dataDaPalestra, Time horaDaPalestra, String duracaoPrevista, int numeroDeSala, String predio) {
         
     	this.tipoEvento = tipoEvento;
 		this.dataDaPalestra = dataDaPalestra;
@@ -65,8 +66,8 @@ public class CronogramaPalestra {
 		this.dataDaPalestra = dataDaPalestra;
 	}
 
-	public PGTime getHoraDaPalestra() {
-		return horaDaPalestra;
+	public Time getHoraDaPalestra() {
+		return this.horaDaPalestra;
 	}
 	public void setHoraDaPalestra(PGTime horaDaPalestra) {
 		this.horaDaPalestra = horaDaPalestra;

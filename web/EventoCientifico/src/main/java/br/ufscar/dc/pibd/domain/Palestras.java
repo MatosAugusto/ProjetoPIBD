@@ -23,10 +23,10 @@ public class Palestras {
         this.idAbordagem = idAbordagem;
     }
     
-	public int getId() {
+	public int getIdAbordagem() {
 		return idAbordagem;
 	}
-	public void setId(int idAbordagem) {
+	public void setIdAbordagem(int idAbordagem) {
 		this.idAbordagem = idAbordagem;
 	}
 

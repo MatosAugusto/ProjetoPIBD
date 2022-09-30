@@ -1,13 +1,9 @@
 package br.ufscar.dc.pibd.dao;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
+
 
 import br.ufscar.dc.pibd.domain.CandidatoAPalestrante;
 
@@ -23,7 +19,7 @@ public class CandidatoAPalestranteDAO extends GenericDAO{
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(0, candidatoAPalestrante.getEmailPrincipal());
             statement.setString(1, candidatoAPalestrante.getPessoaQueIndicou());
-            statement.getString(2, candidatoAPalestrante.getContatoPessoaIndicou());
+            statement.setString(2, candidatoAPalestrante.getContatoPessoaIndicou());
 
             statement.close();
             conn.close();
@@ -44,7 +40,7 @@ public class CandidatoAPalestranteDAO extends GenericDAO{
             statement.setString(0, candidatoAPalestrante.getMiniCurriculo());
             statement.setString(1, candidatoAPalestrante.getAreaDeAtuacao());
             statement.setString(2, candidatoAPalestrante.getNome());
-            statement.setString(3, candidatoAPalestrante.getFoto());
+            statement.setBytes(3, candidatoAPalestrante.getFoto());
             statement.setString(4, candidatoAPalestrante.getEmailPrincipal());
             
             statement.close();
@@ -119,7 +115,7 @@ public class CandidatoAPalestranteDAO extends GenericDAO{
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setString(0, candidatoAPalestrante.getEmailPrincipal());
             statement.setString(1, candidatoAPalestrante.getPessoaQueIndicou());
-            statement.getString(2, candidatoAPalestrante.getContatoPessoaIndicou());
+            statement.setString(2, candidatoAPalestrante.getContatoPessoaIndicou());
 
             statement.close();
             conn.close();
@@ -139,7 +135,7 @@ public class CandidatoAPalestranteDAO extends GenericDAO{
             statement.setString(0, candidatoAPalestrante.getMiniCurriculo());
             statement.setString(1, candidatoAPalestrante.getAreaDeAtuacao());
             statement.setString(2, candidatoAPalestrante.getNome());
-            statement.setString(3, candidatoAPalestrante.getFoto());
+            statement.setBytes(3, candidatoAPalestrante.getFoto());
             statement.setString(4, candidatoAPalestrante.getEmailPrincipal());
             
             statement.close();

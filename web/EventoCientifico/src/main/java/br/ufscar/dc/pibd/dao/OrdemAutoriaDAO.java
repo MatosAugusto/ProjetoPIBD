@@ -21,8 +21,8 @@ public class OrdemAutoriaDAO extends GenericDAO{
 			
             Connection conn = this.getConnection();
             PreparedStatement statement = conn.prepareStatement(sql);
-            statement.setInt(1, ordemAutoria.idAutor());
-            statement.setInt(2, ordemAutoria.ordemAutor());
+            statement.setInt(1, ordemAutoria.getIdAutor());
+            statement.setInt(2, ordemAutoria.getOrdemAutor());
             statement.executeUpdate();
 
             statement.close();

@@ -6,9 +6,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
-import java.math.BigInteger;
+
 
 import br.ufscar.dc.pibd.domain.CronogramaPalestra;
 
@@ -54,13 +55,12 @@ public class CronogramaPalestraDAO extends GenericDAO{
             PreparedStatement statement = conn.prepareStatement(sql);
 
             statement.setInt(1, idAbordagem);
-            statement.setInt(2, idPalestra); // é assim mesmo?
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String tipoEvento = resultSet.getString("tipoEvento");
                 Date dataDaPalestra = resultSet.getDate("dataDaPalestra");
-                PGTime horaDaPalestra = resultSet.getTime("horaDaPalestra");
-                Interval duracaoPrevista = resultSet.getInterval("duracaoPrevista");
+                Time horaDaPalestra = resultSet.getTime("horaDaPalestra");
+                String duracaoPrevista = resultSet.getString("duracaoPrevista");
                 int numeroDeSala = resultSet.getInt("numeroDeSala");
                 String predio = resultSet.getString("predio");
 
@@ -96,7 +96,7 @@ public class CronogramaPalestraDAO extends GenericDAO{
                 String tipoEvento = resultSet.getString("tipoEvento");
                 Date dataDaPalestra = resultSet.getDate("dataDaPalestra");
                 Time horaDaPalestra = resultSet.getTime("horaDaPalestra");
-                Interval duracaoPrevista = resultSet.getInterval("duracaoPrevista");
+                String duracaoPrevista = resultSet.getString("duracaoPrevista");
                 int numeroDeSala = resultSet.getInt("numeroDeSala");
                 String predio = resultSet.getString("predio");
 

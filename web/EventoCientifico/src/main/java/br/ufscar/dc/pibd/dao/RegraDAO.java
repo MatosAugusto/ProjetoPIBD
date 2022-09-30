@@ -20,7 +20,7 @@ public class RegraDAO extends GenericDAO{
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(0, regra.getIdEdital());
             statement.setString(1, regra.getDescricao());
-            statement.setByte(2, regra.getModelo());
+            statement.setBytes(2, regra.getModelo());
             statement.executeUpdate();
 
             statement.close();
@@ -41,7 +41,7 @@ public class RegraDAO extends GenericDAO{
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 String descricao = resultSet.getString("descricao");
-                Byte modelo = resultSet.getByte("modelo");
+                byte[] modelo = resultSet.getBytes("modelo");
 
                 regra = new Regra(idEdital, descricao, modelo);
             }
@@ -65,7 +65,7 @@ public class RegraDAO extends GenericDAO{
             while (resultSet.next()) {
                 Long idEdital = resultSet.getLong("idEdital");
                 String descricao = resultSet.getString("descricao");
-                Byte modelo = resultSet.getByte("modelo");
+                byte[] modelo = resultSet.getBytes("modelo");
 
                 Regra regra = new Regra(idEdital, descricao, modelo);
                 listaRegras.add(regra);
@@ -88,7 +88,7 @@ public class RegraDAO extends GenericDAO{
             PreparedStatement statement = conn.prepareStatement(sql);
             statement.setLong(0, regra.getIdEdital());
             statement.setString(1, regra.getDescricao());
-            statement.setByte(2, regra.getModelo());
+            statement.setBytes(2, regra.getModelo());
             statement.executeUpdate();
 
             statement.close();

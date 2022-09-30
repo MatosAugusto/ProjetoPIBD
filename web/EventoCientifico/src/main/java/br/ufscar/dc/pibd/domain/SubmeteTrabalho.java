@@ -16,12 +16,6 @@ public class SubmeteTrabalho {
         
     	this.idAutoria = idAutoria;
     }
-
-    public SubmeteTrabalho(int idAutor, int idTrabalho, idAutoria) {
-        this(idAutoria);
-        this.idAutor = idAutor;
-		this.idTrabalho = idTrabalho;
-    }
     
 	public int getIdAutor() {
 		return idAutor;

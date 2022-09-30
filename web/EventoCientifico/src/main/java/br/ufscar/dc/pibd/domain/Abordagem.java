@@ -1,13 +1,13 @@
 package br.ufscar.dc.pibd.domain;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 public class Abordagem {
 
 	private int idAbordagem;
 	private int idCompostoPor;
 	private String emailPrincipal;
-	private LocalDate dataHoraAbordagem;
+	private Date dataHoraAbordagem;
 	private String conteudo;
 	private String meioComunicacao1;
 	private String meioComunicacao2;
@@ -17,7 +17,7 @@ public class Abordagem {
 		this.idAbordagem = idAbordagem;
 	}
 	
-	public Abordagem(int idCompostoPor, String emailPrincipal, LocalDate dataHoraAbordagem, String conteudo, String meioComunicacao1, String meioComunicacao2, String meioComunicacao3) {
+	public Abordagem(int idCompostoPor, String emailPrincipal, Date dataHoraAbordagem, String conteudo, String meioComunicacao1, String meioComunicacao2, String meioComunicacao3) {
 		this.idCompostoPor = idCompostoPor;
 		this.emailPrincipal = emailPrincipal;
 		this.dataHoraAbordagem = dataHoraAbordagem;
@@ -50,10 +50,10 @@ public class Abordagem {
 	public void setEmailPrincipal(String emailPrincipal) {
 		this.emailPrincipal = emailPrincipal;
 	}
-	public LocalDate getDataHoraAbordagem() {
+	public Date getDataHoraAbordagem() {
 		return dataHoraAbordagem;
 	}
-	public void setDataHoraAbordagem(LocalDate dataHoraAbordagem) {
+	public void setDataHoraAbordagem(Date dataHoraAbordagem) {
 		this.dataHoraAbordagem = dataHoraAbordagem;
 	}
 	public String getConteudo() {
