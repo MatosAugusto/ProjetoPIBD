@@ -1,11 +1,20 @@
 -- Criação de views
 
 -- R39. Listar artigos com status + avaliadores + avaliações + (artigos aceitos + autores + título) + (artigos rejeitados + autores + títulos)
--- Essa aqui eu não tenho nem ideia, eu fui tentando fazer aos pouquinhos, mas não saí do lugar
 CREATE OR REPLACE VIEW View_Artigos AS
-SELECT a.tipoArtigo, t.status, p.primeiroNome, p.sobrenome, 
-FROM Trabalho T, Artigo A, SubmeteTrabalho S
-WHERE T.idTrabalho = A.idTrabalho AND S.idAutor = idAutor;
+SELECT a.tipoArtigo, t.status, t.titulo, p.primeiroNome, p.sobrenome, paut.primeiroNome, paut.sobrenome, av.conflito, av.justificativa, av.notaAtribuida 
+FROM Trabalho t, Artigo a, Pessoa p, Pessoa paut, Avaliacao av, Avalia avl, Avaliador avldr, SubmeteTrabalho s
+WHERE t.idTrabalho = a.idTrabalho AND p.idPessoa = avldr.idAvaliador and paut.idPessoa = s.idAutor and s.idTrabalho = t.idTrabalho and av.idAvalia = avl.idAvalia and avl.idTrabalho = t.idTrabalho;
+
+CREATE OR REPLACE VIEW View_Artigos_Aceitos AS
+SELECT a.tipoArtigo, t.status, t.titulo, p.primeiroNome, p.sobrenome, paut.primeiroNome, paut.sobrenome, av.conflito, av.justificativa, av.notaAtribuida 
+FROM Trabalho t, Artigo a, Pessoa p, Pessoa paut, Avaliacao av, Avalia avl, Avaliador avldr, SubmeteTrabalho s
+WHERE t.idTrabalho = a.idTrabalho AND p.idPessoa = avldr.idAvaliador and paut.idPessoa = s.idAutor and s.idTrabalho = t.idTrabalho and av.idAvalia = avl.idAvalia and avl.idTrabalho = t.idTrabalho AND t.status = 'Aprovado';
+
+CREATE OR REPLACE VIEW View_Artigos_Reprovados AS
+SELECT a.tipoArtigo, t.status, t.titulo, p.primeiroNome, p.sobrenome, paut.primeiroNome, paut.sobrenome, av.conflito, av.justificativa, av.notaAtribuida 
+FROM Trabalho t, Artigo a, Pessoa p, Pessoa paut, Avaliacao av, Avalia avl, Avaliador avldr, SubmeteTrabalho s
+WHERE t.idTrabalho = a.idTrabalho AND p.idPessoa = avldr.idAvaliador and paut.idPessoa = s.idAutor and s.idTrabalho = t.idTrabalho and av.idAvalia = avl.idAvalia and avl.idTrabalho = t.idTrabalho AND t.status = 'Reprovado';
 
 -- R40. Listagem de responsáveis e corresponsáveis dos comitês
 -- Não sei se tá certo, mas pelo menos não deu erro (e eu achei melhor separar em duas views)

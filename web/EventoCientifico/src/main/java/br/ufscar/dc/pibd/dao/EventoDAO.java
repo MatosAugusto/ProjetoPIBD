@@ -43,7 +43,14 @@ public class EventoDAO extends GenericDAO{
 	public Evento get(String sigla) {
 		Evento evento = null;
 
-        String sql = "SELECT * from Evento where Evento.sigla = sigla";
+		String sql = "SELECT * from Evento";/*
+											 * "SELECT * from Evento, Pais, Estado, Cidade, Bairro, Cep where Evento.sigla = sigla"
+											 * +
+											 * "and Pais.pais = Estado.pais and Pais.estado = Estado.estado and Estado.cidade = Cidade.cidade"
+											 * +
+											 * "and Estado.estado = Cidade.estado and Cidade.bairro = Bairro.bairro and Cidade.cidade = Bairro.cidade"
+											 * + "and Bairro.cep = Cep.cep and Bairro.bairro = Cep.bairro";
+											 */
 
         try {
             Connection conn = this.getConnection();
@@ -52,17 +59,19 @@ public class EventoDAO extends GenericDAO{
             statement.setString(1, sigla);
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
+                String siglaEv = resultSet.getString("sigla");
                 String nomeExtenso = resultSet.getString("nomeExtenso");
-                String pais = resultSet.getString("pais");
-                String estado = resultSet.getString("estado");
-                String cidade = resultSet.getString("cidade");
-                String bairro = resultSet.getString("bairro");
+				/*
+				 * String pais = resultSet.getString("pais"); String estado =
+				 * resultSet.getString("estado"); String cidade = resultSet.getString("cidade");
+				 * String bairro = resultSet.getString("bairro");
+				 */
                 String cep = resultSet.getString("cep");
                 int numero = resultSet.getInt("numero");
-                String logradouro = resultSet.getString("logradouro");
+				/* String logradouro = resultSet.getString("logradouro"); */
                 String complemento = resultSet.getString("complemento");
 
-                evento = new Evento(sigla, nomeExtenso, pais, estado, cidade, bairro, cep, numero, logradouro, complemento);
+                evento = new Evento(siglaEv, nomeExtenso, cep, numero, complemento);
             }
 
             resultSet.close();
@@ -88,16 +97,17 @@ public class EventoDAO extends GenericDAO{
             while (resultSet.next()) {
             	String sigla = resultSet.getString("sigla");
                 String nomeExtenso = resultSet.getString("nomeExtenso");
-                String pais = resultSet.getString("pais");
-                String estado = resultSet.getString("estado");
-                String cidade = resultSet.getString("cidade");
-                String bairro = resultSet.getString("bairro");
+				/*
+				 * String pais = resultSet.getString("pais"); String estado =
+				 * resultSet.getString("estado"); String cidade = resultSet.getString("cidade");
+				 * String bairro = resultSet.getString("bairro");
+				 */
                 String cep = resultSet.getString("cep");
                 int numero = resultSet.getInt("numero");
-                String logradouro = resultSet.getString("logradouro");
+				/* String logradouro = resultSet.getString("logradouro"); */
                 String complemento = resultSet.getString("complemento");
 
-                Evento evento = new Evento(sigla, nomeExtenso, pais, estado, cidade, bairro, cep, numero, logradouro, complemento);
+                Evento evento = new Evento(sigla, nomeExtenso, cep, numero, complemento);
                 listaEvento.add(evento);
             }
 

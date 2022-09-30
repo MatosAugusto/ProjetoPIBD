@@ -32,6 +32,16 @@ public class Evento {
     	this.logradouro = logradouro;
         this.complemento = complemento;
     }
+    
+    public Evento(String sigla, String nomeExtenso,
+    		String cep, int numero, String complemento) {
+    	
+    	this.sigla = sigla;
+    	this.nomeExtenso = nomeExtenso;
+        this.cep = cep;
+    	this.numero = numero;
+        this.complemento = complemento;
+    }
 
 	
 	public String getSigla() {
